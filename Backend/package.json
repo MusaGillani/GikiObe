@@ -1,0 +1,21 @@
+{
+  "name": "giki-obe-server",
+  "version": "1.0.0",
+  "description": "backend server for the GIKI OBE web application",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon -r dotenv/config bin/www"
+  },
+  "author": "Musa Gillani",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mysql2": "^2.3.3",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.16.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0"
+  }
+}
