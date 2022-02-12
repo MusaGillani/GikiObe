@@ -1,0 +1,45 @@
+{
+  "name": "SequelizeDatabaseError",
+  "parent": {
+    "code": "ER_BAD_FIELD_ERROR",
+    "errno": 1054,
+    "sqlState": "42S22",
+    "sqlMessage": "Unknown column 'id' in 'field list'",
+    "sql": "INSERT INTO `Courses` (`id`,`course_code`,`name`,`introduction`,`creditHours`,`preReq`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?,?,?,?);",
+    "parameters": [
+      343,
+      "OOP",
+      "hello world",
+      3,
+      null,
+      "2022-02-12 11:14:08",
+      "2022-02-12 11:14:08"
+    ]
+  },
+  "original": {
+    "code": "ER_BAD_FIELD_ERROR",
+    "errno": 1054,
+    "sqlState": "42S22",
+    "sqlMessage": "Unknown column 'id' in 'field list'",
+    "sql": "INSERT INTO `Courses` (`id`,`course_code`,`name`,`introduction`,`creditHours`,`preReq`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?,?,?,?);",
+    "parameters": [
+      343,
+      "OOP",
+      "hello world",
+      3,
+      null,
+      "2022-02-12 11:14:08",
+      "2022-02-12 11:14:08"
+    ]
+  },
+  "sql": "INSERT INTO `Courses` (`id`,`course_code`,`name`,`introduction`,`creditHours`,`preReq`,`createdAt`,`updatedAt`) VALUES (DEFAULT,?,?,?,?,?,?,?);",
+  "parameters": [
+    343,
+    "OOP",
+    "hello world",
+    3,
+    null,
+    "2022-02-12 11:14:08",
+    "2022-02-12 11:14:08"
+  ]
+}

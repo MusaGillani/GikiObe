@@ -4,6 +4,7 @@
   "description": "backend server for the GIKI OBE web application",
   "main": "app.js",
   "scripts": {
+    "start_dev": "nodemon bin/www",
     "test": "nodemon -r dotenv/config bin/www"
   },
   "author": "Musa Gillani",
