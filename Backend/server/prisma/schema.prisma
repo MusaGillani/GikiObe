@@ -8,35 +8,38 @@ datasource db {
 }
 
 model courseplo {
-  RegNo      Int     @id @db.UnsignedInt
-  CourseCode String  @db.VarChar(30)
-  Semester   String  @db.VarChar(30)
-  PLO1       String  @db.VarChar(30)
-  PLO2       String  @db.VarChar(30)
-  PLO3       String  @db.VarChar(30)
-  PLO4       String  @db.VarChar(30)
-  PLO5       String  @db.VarChar(30)
-  PLO6       String  @db.VarChar(30)
-  PLO7       String  @db.VarChar(30)
-  PLO8       String  @db.VarChar(30)
-  PLO9       String  @db.VarChar(30)
-  PLO10      String  @db.VarChar(30)
-  PLO11      String  @db.VarChar(30)
-  PLO12      String  @db.VarChar(30)
-  student    student @relation(fields: [RegNo], references: [RegNo], onDelete: NoAction, onUpdate: NoAction, map: "courseplo_ibfk_1")
+  id         Int      @id @default(autoincrement())
+  RegNo      Int?     @db.UnsignedInt
+  CourseCode String   @db.VarChar(30)
+  Semester   String   @db.VarChar(30)
+  PLO1       String   @db.VarChar(30)
+  PLO2       String   @db.VarChar(30)
+  PLO3       String   @db.VarChar(30)
+  PLO4       String   @db.VarChar(30)
+  PLO5       String   @db.VarChar(30)
+  PLO6       String   @db.VarChar(30)
+  PLO7       String   @db.VarChar(30)
+  PLO8       String   @db.VarChar(30)
+  PLO9       String   @db.VarChar(30)
+  PLO10      String   @db.VarChar(30)
+  PLO11      String   @db.VarChar(30)
+  PLO12      String   @db.VarChar(30)
+  student    student? @relation(fields: [RegNo], references: [RegNo], onDelete: NoAction, onUpdate: NoAction, map: "courseplo_ibfk_1")
+
+  @@index([RegNo], map: "RegNo")
 }
 
 model schemeofstudy {
   Semester    String @db.VarChar(30)
   Batch       Int
   CourseCode  String @id @db.VarChar(30)
-  CourseTitle String @db.VarChar(30)
+  CourseTitle String @db.VarChar(255)
 }
 
 model student {
-  RegNo     Int        @id @db.UnsignedInt
-  Faculty   String     @db.VarChar(30)
-  Name      String     @db.VarChar(30)
+  RegNo     Int         @id @db.UnsignedInt
+  Faculty   String      @db.VarChar(30)
+  Name      String      @db.VarChar(30)
   Batch     Int?
-  courseplo courseplo?
+  courseplo courseplo[]
 }

@@ -4,12 +4,12 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res, next) => {
+router.get("/student", async (req, res, next) => {
   const users = await prisma.student.findMany();
 
   res.send(JSON.stringify(users));
 });
-router.post("/add", async (req, res, next) => {
+router.post("/student", async (req, res, next) => {
   // run inside `async` function
   try {
     const newUser = {
@@ -26,6 +26,18 @@ router.post("/add", async (req, res, next) => {
   } catch (e) {
     res.status(404).send(JSON.stringify(e));
   }
+});
+
+router.get("/courseplo", async (req, res, next) => {
+  const users = await prisma.courseplo.findMany();
+
+  res.send(JSON.stringify(users));
+});
+
+router.get("/scheme", async (req, res, next) => {
+  const users = await prisma.schemeofstudy.findMany();
+
+  res.send(JSON.stringify(users));
 });
 
 module.exports = router;
