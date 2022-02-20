@@ -148,13 +148,15 @@ router.get("/transcript/:reg", async (req, res, next) => {
         const course = await prisma.schemeofstudy.findFirst({
           select: {
             CourseTitle: true,
+            Semester: true,
           },
           where: {
             CourseCode: obj.CourseCode,
           },
         });
-        console.log(course.CourseTitle);
+        console.log(course);
         obj["course_name"] = course.CourseTitle;
+        obj["number"] = course.Semester;
         // console.log(result);
       }
 
@@ -165,7 +167,7 @@ router.get("/transcript/:reg", async (req, res, next) => {
             // console.log(obj[key]);
             if (!semesters.hasOwnProperty(`${obj[key]}`)) {
               // semesters.set(`${obj[key]}`, []);
-              semesters[obj[key]] = [];
+              semesters[`${obj["number"]}_${obj[key]}`] = [];
             }
             let keys = [];
             // storing keys from obj
@@ -188,7 +190,7 @@ router.get("/transcript/:reg", async (req, res, next) => {
               ["course_code"]: values["CourseCode"],
             })["CourseCode"];
 
-            semesters[obj[key]].push(values);
+            semesters[`${obj["number"]}_${obj[key]}`].push(values);
             // console.log(semesters[`${obj[key]}`]);
           }
         }
@@ -202,6 +204,7 @@ router.get("/transcript/:reg", async (req, res, next) => {
     // console.log(schemeCourses.length);
     // console.log(typeof result);
     res.send(JSON.stringify(semesters));
+    // res.send(JSON.stringify(result));
   } catch (e) {
     console.log(e);
     res.status(404).send(JSON.stringify({ message: e.toString() }));
