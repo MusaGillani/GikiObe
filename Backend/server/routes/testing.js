@@ -108,6 +108,7 @@ router.get("/transcript", async (req, res, next) => {
     let result = await prisma.courseplo.findMany({
       select: {
         Semester: true,
+        // CourseTitle: true,
         CourseCode: true,
         PLO1: true,
         PLO2: true,
@@ -132,6 +133,9 @@ router.get("/transcript", async (req, res, next) => {
           },
         ],
       },
+      // include: {
+      //   CourseTitle: true,
+      // },
     });
 
     // let semesters = new Map();
@@ -140,7 +144,19 @@ router.get("/transcript", async (req, res, next) => {
     if (result) {
       // semesters.set(`${result.Semester}`, arr);
       // trans.Semesters = semesters;
-      // result.forEach();
+      for (const obj of result) {
+        const course = await prisma.schemeofstudy.findFirst({
+          select: {
+            CourseTitle: true,
+          },
+          where: {
+            CourseCode: obj.CourseCode,
+          },
+        });
+        console.log(course.CourseTitle);
+        obj["course_name"] = course.CourseTitle;
+        // console.log(result);
+      }
 
       result.forEach((obj) => {
         // console.log(obj);
@@ -166,6 +182,12 @@ router.get("/transcript", async (req, res, next) => {
 
             // console.log(values);
             // semesters.get(`${obj[key]}`).push(values);
+
+            // renaming CourseCode key to course_code
+            delete Object.assign(values, {
+              ["course_code"]: values["CourseCode"],
+            })["CourseCode"];
+
             semesters[obj[key]].push(values);
             // console.log(semesters[`${obj[key]}`]);
           }
