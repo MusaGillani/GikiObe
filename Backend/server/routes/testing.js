@@ -40,10 +40,10 @@ router.get("/scheme", async (req, res, next) => {
   res.send(JSON.stringify(users));
 });
 
-router.get("/transcript", async (req, res, next) => {
+router.get("/transcript/:reg", async (req, res, next) => {
   try {
     const data = {
-      reg: parseInt(req.query.reg),
+      reg: parseInt(req.params.reg),
       //   batch: req.query.batch,
     };
 
