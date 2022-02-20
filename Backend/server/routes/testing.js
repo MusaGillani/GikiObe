@@ -69,8 +69,8 @@ router.get("/transcript", async (req, res, next) => {
     // JSON RESPONSE sample transcript format
     const trans = {
       reg: data.reg,
-      Semesters: [
-        /*
+      // Semesters: [
+      /*
         {
             number : 1,
             session: '' , fall/spring
@@ -97,7 +97,7 @@ router.get("/transcript", async (req, res, next) => {
             ]
         }
         */
-      ],
+      // ],
     };
     let codes = [];
     schemeCourses.forEach((course) => {
@@ -134,84 +134,52 @@ router.get("/transcript", async (req, res, next) => {
       },
     });
 
-    /*
-    output of above query: 
-        [
-            {
-            "Semester": " Fall 2021",
-            "CourseCode": "CS325",
-            "PLO1": "",
-            "PLO2": "",
-            "PLO3": "",
-            "PLO4": "Y",
-            "PLO5": "",
-            "PLO6": "",
-            "PLO7": "",
-            "PLO8": "",
-            "PLO9": "Y",
-            "PLO10": "",
-            "PLO11": "",
-            "PLO12": "Y"
-            },
-            {
-            "Semester": " Fall 2021",
-            "CourseCode": "CE324",
-            "PLO1": "",
-            "PLO2": "Y",
-            "PLO3": "Y",
-            "PLO4": "",
-            "PLO5": "",
-            "PLO6": "",
-            "PLO7": "Y",
-            "PLO8": "",
-            "PLO9": "",
-            "PLO10": "",
-            "PLO11": "",
-            "PLO12": ""
-            }
-        ]
-    */
-
-    let semesters = [];
+    // let semesters = new Map();
+    let semesters = {};
 
     if (result) {
-      //   console.log(`found ${result.CourseCode}`);
-      // semester number in schemeCourses and session in result ....
-      //TODO rethink json format
-      schemeCourses.forEach((course) => {
-        semesters
-          .push
-          /*{
-          number: course.Semester,
-          session: "",
-          courses: [
-            {
-              code: "",
-              plos: [
-                {
-                  PLO1: "",
-                  PLO2: "",
-                  PLO3: "",
-                  PLO4: "Y",
-                  PLO5: "",
-                  PLO6: "",
-                  PLO7: "",
-                  PLO8: "",
-                  PLO9: "Y",
-                  PLO10: "",
-                  PLO11: "",
-                  PLO12: "Y",
-                },
-              ],
-            },
-          ],
-        }*/
-          ();
+      // semesters.set(`${result.Semester}`, arr);
+      // trans.Semesters = semesters;
+      // result.forEach();
+
+      result.forEach((obj) => {
+        // console.log(obj);
+        for (const key in obj) {
+          if (key == "Semester") {
+            // console.log(obj[key]);
+            if (!semesters.hasOwnProperty(`${obj[key]}`)) {
+              // semesters.set(`${obj[key]}`, []);
+              semesters[obj[key]] = [];
+            }
+            let keys = [];
+            // storing keys from obj
+            keys = Object.keys(obj)
+              // removing semester key from array
+              .filter((k) => k != key);
+
+            // let values = new Map();
+            let values = {};
+            keys.forEach((i) => {
+              // values.set(i, obj[i]);
+              values[i] = obj[i];
+            });
+
+            // console.log(values);
+            // semesters.get(`${obj[key]}`).push(values);
+            semesters[obj[key]].push(values);
+            // console.log(semesters[`${obj[key]}`]);
+          }
+        }
+        // console.log(semesters);
+        // console.log(JSON.parse(semesters));
       });
     }
 
+    // console.log(JSON.parse(semesters));
+
     // console.log(schemeCourses.length);
-    res.send(JSON.stringify({ result }));
+    // console.log(typeof result);
+    res.send(JSON.stringify(semesters));
   } catch (e) {
     console.log(e);
     res.status(404).send(JSON.stringify({ message: e.toString() }));
