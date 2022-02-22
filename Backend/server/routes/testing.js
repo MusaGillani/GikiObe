@@ -1,8 +1,9 @@
 const router = require("express").Router();
 
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, Prisma } = require("@prisma/client");
 
 const prisma = new PrismaClient();
+const mysql = require("mysql2");
 
 router.get("/student", async (req, res, next) => {
   const users = await prisma.student.findMany();
@@ -210,4 +211,57 @@ router.get("/transcript/:reg", async (req, res, next) => {
     res.status(404).send(JSON.stringify({ message: e.toString() }));
   }
 });
+
+router.post("/add", async (req, res, next) => {
+  try {
+    // const title = req.body.title;
+    const file = req.file;
+    const filename = file.originalname;
+    // console.log(title);
+    console.log(`${filename}`);
+    // const query = (filename) =>
+    //   `LOAD DATA INFILE 'E:\\GIK\\fyp\\Backend\\server\\csvs\\${filename}' INTO TABLE courseplo FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS (RegNo,CourseCode,Semester,PLO1,PLO2,PLO3,PLO4,PLO5,PLO6,PLO7,PLO8,PLO9,PLO10,PLO11,PLO12);`;
+    // query = `SELECT * FROM COURSEPLO;`;
+    // const result = await prisma.$queryRaw(
+    //   Prisma.sql`LOAD DATA INFILE 'E:\GIK\fyp\Backend\server\csvs\${filename}' INTO TABLE courseplo FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS (RegNo,CourseCode,Semester,PLO1,PLO2,PLO3,PLO4,PLO5,PLO6,PLO7,PLO8,PLO9,PLO10,PLO11,PLO12);`
+    // );
+    const connection = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "Gillani1",
+      port: 3306,
+      database: "obe_development",
+    });
+
+    let command = "LOAD DATA INFILE '";
+    let query =
+      command +
+      "E:/GIK/fyp/Backend/server/csvs/" +
+      filename +
+      "' INTO TABLE courseplo FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS (RegNo,CourseCode,Semester,PLO1,PLO2,PLO3,PLO4,PLO5,PLO6,PLO7,PLO8,PLO9,PLO10,PLO11,PLO12);";
+    connection.query(query, function (err, results, fields) {
+      if (results) {
+        console.log(results); // results contains rows returned by server
+        console.log(fields); // fields contains extra meta data about results, if available
+
+        res.send("added");
+      } else {
+        console.log(err);
+        res.send(err);
+      }
+    });
+    // res.sendStatus(200);
+  } catch (e) {
+    res.status(404).send(e.toString);
+    console.log(e);
+  }
+});
+// router.get("/test", async (req, res, next) => {
+//   const filename = "courseplo3.csv";
+//   const users = await prisma.$executeRawUnsafe(
+//     `LOAD DATA INFILE 'E:\\GIK\\fyp\\Backend\\server\\csvs\\${filename}' INTO TABLE courseplo FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\\n' IGNORE 1 ROWS (RegNo,CourseCode,Semester,PLO1,PLO2,PLO3,PLO4,PLO5,PLO6,PLO7,PLO8,PLO9,PLO10,PLO11,PLO12);`
+//   );
+
+//   res.send(JSON.stringify(users));
+// });
 module.exports = router;

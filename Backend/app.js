@@ -1,9 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require("multer");
+
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "server/csvs");
+  },
+  filename: (req, file, cb) => {
+    cb(null, /* new Date().toISOString() + "-" + */ file.originalname);
+  },
+});
 
 // Set up the express app
 const app = express();
 
+app.use(multer({ storage: fileStorage }).single("file"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
