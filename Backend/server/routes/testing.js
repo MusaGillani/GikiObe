@@ -194,7 +194,7 @@ router.get("/transcript/:reg", async (req, res, next) => {
             // console.log(semesters[`${obj[key]}`]);
           }
         }
-        // console.log(semesters);
+        console.log(semesters);
         // console.log(JSON.parse(semesters));
       });
     }
