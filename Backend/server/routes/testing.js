@@ -168,7 +168,8 @@ router.get("/transcript/:reg", async (req, res, next) => {
             // console.log(obj[key]);
             if (!semesters.hasOwnProperty(`${obj[key]}`)) {
               // semesters.set(`${obj[key]}`, []);
-              semesters[`${obj["number"]}_${obj[key]}`] = [];
+              semesters[`${obj[key]}`] = [];
+              // semesters[`${obj["number"]}_${obj[key]}`] = [];
             }
             let keys = [];
             // storing keys from obj
@@ -191,7 +192,8 @@ router.get("/transcript/:reg", async (req, res, next) => {
               ["course_code"]: values["CourseCode"],
             })["CourseCode"];
 
-            semesters[`${obj["number"]}_${obj[key]}`].push(values);
+            semesters[`${obj[key]}`].push(values);
+            // semesters[`${obj["number"]}_${obj[key]}`].push(values);
             // console.log(semesters[`${obj[key]}`]);
           }
         }
