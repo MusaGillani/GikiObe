@@ -1,0 +1,104 @@
+{
+  "2018146": {
+    "Fall Semester 2021": [
+      {
+        "course_code": "MT101",
+        "course_name": "Calculus",
+        "PLO1": "Y",
+        "PLO2": "N",
+        "PLO3": "-",
+        "PLO4": "Y",
+        "PLO5": "-",
+        "PLO6": "-",
+        "PLO7": "-",
+        "PLO8": "-",
+        "PLO9": "-",
+        "PLO10": "-",
+        "PLO11": "-",
+        "PLO12": "-"
+      },
+      {
+        "course_code": "PH101",
+        "course_name": "Mechanics",
+        "PLO1": "Y",
+        "PLO2": "N",
+        "PLO3": "-",
+        "PLO4": "Y",
+        "PLO5": "-",
+        "PLO6": "-",
+        "PLO7": "-",
+        "PLO8": "-",
+        "PLO9": "-",
+        "PLO10": "-",
+        "PLO11": "-",
+        "PLO12": "-"
+      },
+      {
+        "course_code": "CS101",
+        "course_name": "Introduction to Computer Fundamentals",
+        "PLO1": "Y",
+        "PLO2": "N",
+        "PLO3": "-",
+        "PLO4": "Y",
+        "PLO5": "-",
+        "PLO6": "-",
+        "PLO7": "-",
+        "PLO8": "-",
+        "PLO9": "-",
+        "PLO10": "-",
+        "PLO11": "-",
+        "PLO12": "-"
+      }
+    ],
+    "Spring Semester 2021": [
+      {
+        "course_code": "MT101",
+        "course_name": "Calculus",
+        "PLO1": "Y",
+        "PLO2": "N",
+        "PLO3": "-",
+        "PLO4": "Y",
+        "PLO5": "-",
+        "PLO6": "-",
+        "PLO7": "-",
+        "PLO8": "-",
+        "PLO9": "-",
+        "PLO10": "-",
+        "PLO11": "-",
+        "PLO12": "-"
+      },
+      {
+        "course_code": "PH101",
+        "course_name": "Mechanics",
+        "PLO1": "Y",
+        "PLO2": "N",
+        "PLO3": "-",
+        "PLO4": "Y",
+        "PLO5": "-",
+        "PLO6": "-",
+        "PLO7": "-",
+        "PLO8": "-",
+        "PLO9": "-",
+        "PLO10": "-",
+        "PLO11": "-",
+        "PLO12": "-"
+      },
+      {
+        "course_code": "CS101",
+        "course_name": "Introduction to Computer Fundamentals",
+        "PLO1": "Y",
+        "PLO2": "N",
+        "PLO3": "-",
+        "PLO4": "Y",
+        "PLO5": "-",
+        "PLO6": "-",
+        "PLO7": "-",
+        "PLO8": "-",
+        "PLO9": "-",
+        "PLO10": "-",
+        "PLO11": "-",
+        "PLO12": "-"
+      }
+    ]
+  }
+}
