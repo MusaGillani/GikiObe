@@ -14,7 +14,7 @@ function App() {
           <Route exact path="/">
             <Generate />
           </Route>
-          <Route exact path="/transcript-download">
+          <Route exact path="/transcript-download/:regNo/:name">
             <Download />
           </Route>
           <Route exact path="/populate">

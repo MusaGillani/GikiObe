@@ -82,9 +82,11 @@ function Populate() {
   };
 
   const onSelectImageHandler = (files) => {
-    const file = files[0];
+    const file = files;
     const formData = new FormData();
-    formData.append("file", file);
+    for (let i = 0; i < files.length; i++) {
+      formData.append(`file[${i}]`, files[i]);
+    }
     console.log(formData);
     setformData(formData);
   };
@@ -153,8 +155,9 @@ function Populate() {
             <label htmlFor="upload">Upload File</label>
             <input
               type="file"
-              name="upload"
+              name="files"
               id="upload"
+              multiple
               onChange={(e) => onSelectImageHandler(e.target.files)}
             />
           </div>

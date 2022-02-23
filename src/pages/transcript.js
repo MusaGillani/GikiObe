@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import logo from "./logo.jpg";
 import { makeStyles } from "@material-ui/styles"; // a function
+import { useParams } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -56,9 +57,11 @@ const useStyles = makeStyles({
 
 export const Transcript = React.forwardRef((props, ref) => {
   const [details, setDetails] = useState([]);
+  const { regNo, name } = useParams();
+
   const classes = useStyles();
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/testing/transcript/2018460")
+    fetch(`http://127.0.0.1:8000/testing/transcript/${regNo}`)
       .then((res) => res.json())
       .then((data) => setDetails(data));
   }, []);
@@ -76,7 +79,7 @@ export const Transcript = React.forwardRef((props, ref) => {
         component="h2"
         gutterBottom
       >
-        Name: Hassan Raza
+        Name: {name}
       </Typography>
       <Typography
         variant="h6"

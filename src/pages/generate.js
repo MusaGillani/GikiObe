@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   btn: {
@@ -38,6 +39,7 @@ function Generate() {
   const [reNoError, setReNoError] = useState(false);
   const [nameError, setNameError] = useState(false);
   const [batchError, setBatchError] = useState(false);
+  const history = useHistory();
 
   // Handle Submit
 
@@ -58,6 +60,7 @@ function Generate() {
     if (regNo && name && batch) {
       console.log(regNo, name, batch);
       //history.push("/generate-transcript");
+      history.push(`/transcript-download/${regNo}/${name}`);
     }
   };
 
