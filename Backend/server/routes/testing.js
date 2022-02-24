@@ -1,9 +1,9 @@
-const router = require("express").Router();
-
+const env = require("dotenv").config();
+const mysql = require("mysql2");
 const { PrismaClient, Prisma } = require("@prisma/client");
 
 const prisma = new PrismaClient();
-const mysql = require("mysql2");
+const router = require("express").Router();
 
 router.get("/student", async (req, res, next) => {
   const users = await prisma.student.findMany();
@@ -238,11 +238,11 @@ router.post("/add", async (req, res, next) => {
       //   database: "obe_development",
       // });
       const connection = mysql.createPool({
-        host: "localhost",
-        user: "root",
-        password: "Gillani1",
-        port: 3306,
-        database: "obe_development",
+        host: process.env.HOST,
+        user: process.env.USER,
+        password: process.env.PASSWORD,
+        port: process.env.DBPORT,
+        database: process.env.DATABASE,
         waitForConnections: true,
         connectionLimit: 10,
         queueLimit: 0,
