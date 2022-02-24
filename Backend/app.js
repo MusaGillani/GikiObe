@@ -14,7 +14,7 @@ const fileStorage = multer.diskStorage({
 // Set up the express app
 const app = express();
 
-app.use(multer({ storage: fileStorage }).single("file"));
+app.use(multer({ storage: fileStorage }).array("files"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
