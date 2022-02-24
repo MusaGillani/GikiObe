@@ -1,183 +1,116 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Container } from "@material-ui/core";
-import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
 import logo from "./logo.jpg";
-import { makeStyles } from "@material-ui/styles"; // a function
 import { useParams } from "react-router-dom";
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 18,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
-
-const useStyles = makeStyles({
-  btn: {
-    fontSize: 60,
-    backgroundColor: "violet",
-    "&:hover": {
-      backgroundColor: "blue",
-    },
-  },
-  field: {
-    marginTop: 20,
-    marginBottom: 20,
-    display: "block",
-  },
-  header_name: {
-    display: "flex",
-    paddingLeft: 150,
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-});
+import "./transcript.css";
 
 export const Transcript = React.forwardRef((props, ref) => {
   const [details, setDetails] = useState([]);
   const { regNo, name } = useParams();
-
-  const classes = useStyles();
+  const [regNum, setRegNum] = useState(regNo);
+  if (props.reg) {
+    //console.log(props.reg);
+    setRegNum(props.reg);
+  }
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/testing/transcript/${regNo}`)
+    fetch(`http://127.0.0.1:8000/testing/transcript/${regNum}`)
       .then((res) => res.json())
       .then((data) => setDetails(data));
-  }, []);
+  }, [regNum]);
   return (
-    <div ref={ref}>
-      <div className={classes.header_name}>
-        <img src={logo} alt="logo" />
-        <h1>
-          Ghulam Ishaq Khan Institute of Engineering Sciences and Technology
-        </h1>
+    <div class="container-fluid px-5" ref={ref}>
+      <div class="container-fluid">
+        <div className="row header pt-4">
+          <div className="col-2">
+            <img src={logo} alt="logo" className="giki-logo" />
+          </div>
+
+          <div className="title col-10">
+            <h2 className="uni-name">
+              Ghulam Ishaq Khan Institute of Engineering Sciences and Technology
+            </h2>
+            <h4>PLO Transcript</h4>
+          </div>
+        </div>
+        <div className="student-data px-4 py-3">
+          <p>
+            <b>Name:</b> Hassan Raza
+          </p>
+          <p>
+            <b>Registration Number:</b> {regNum}
+          </p>
+          <p>
+            <b>Faculty:</b> BCE
+          </p>
+        </div>
       </div>
-      <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        Name: {name}
-      </Typography>
-      <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        Registration Number: 2018146
-      </Typography>
-      <Typography
-        variant="h6"
-        color="textSecondary"
-        component="h2"
-        gutterBottom
-      >
-        Faculty: BCE
-      </Typography>
       {Object.keys(details).map((year) => (
         //let year = year_no.split("_")[1];
-        <div>
-          <Typography
-            variant="h6"
-            color="textSecondary"
-            component="h2"
-            gutterBottom
-          >
-            {year}
-          </Typography>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Course Code</StyledTableCell>
-                  <StyledTableCell align="right">Course Title</StyledTableCell>
-                  <StyledTableCell align="right">PLO1&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO2&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO3&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO4&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO5&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO6&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO7&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO8&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO9&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO10&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO11&nbsp;</StyledTableCell>
-                  <StyledTableCell align="right">PLO12&nbsp;</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {details[year].map((row) => (
-                  <StyledTableRow key={row.course_code}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.course_code}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.course_name}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO1 == "" ? "-" : row.PLO1}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO2 == "" ? "-" : row.PLO2}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO3 == "" ? "-" : row.PLO3}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO4 == "" ? "-" : row.PLO4}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO5 == "" ? "-" : row.PLO5}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO6 == "" ? "-" : row.PLO6}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO7 == "" ? "-" : row.PLO7}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO8 == "" ? "-" : row.PLO8}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO9 == "" ? "-" : row.PLO9}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO10 == "" ? "-" : row.PLO10}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO11 == "" ? "-" : row.PLO11}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.PLO12 == "" ? "-" : row.PLO12}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <div class="w-100">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th
+                  class="border-start-1 border-end-0 border-top-0 fw-normal"
+                  scope="col"
+                  style={{ width: "20%" }}
+                >
+                  {year}
+                </th>
+                <th
+                  class="border-0 border-top-0"
+                  scope="col"
+                  style={{ width: "25%" }}
+                ></th>
+                <th
+                  class="table-light rowhead"
+                  scope="col"
+                  colspan="12"
+                  style={{ width: "55%" }}
+                >
+                  PLOs
+                </th>
+              </tr>
+            </thead>
+            <thead>
+              <tr>
+                <th scope="col">Course Code</th>
+                <th scope="col">Course Title</th>
+                <th scope="col">1</th>
+                <th scope="col">2</th>
+                <th scope="col">3</th>
+                <th scope="col">4</th>
+                <th scope="col">5</th>
+                <th scope="col">6</th>
+                <th scope="col">7</th>
+                <th scope="col">8</th>
+                <th scope="col">9</th>
+                <th scope="col">10</th>
+                <th scope="col">11</th>
+                <th scope="col">12</th>
+              </tr>
+            </thead>
+            <tbody>
+              {details[year].map((row) => (
+                <tr>
+                  <td scope="row">{row.course_code}</td>
+                  <td scope="row">{row.course_name}</td>
+                  <td scope="row">{row.PLO1 == "" ? "-" : row.PLO1}</td>
+                  <td scope="row">{row.PLO2 == "" ? "-" : row.PLO2}</td>
+                  <td scope="row">{row.PLO3 == "" ? "-" : row.PLO3}</td>
+                  <td scope="row">{row.PLO4 == "" ? "-" : row.PLO4}</td>
+                  <td scope="row">{row.PLO5 == "" ? "-" : row.PLO5}</td>
+                  <td scope="row">{row.PLO6 == "" ? "-" : row.PLO6}</td>
+                  <td scope="row">{row.PLO7 == "" ? "-" : row.PLO7}</td>
+                  <td scope="row">{row.PLO8 == "" ? "-" : row.PLO8}</td>
+                  <td scope="row">{row.PLO9 == "" ? "-" : row.PLO9}</td>
+                  <td scope="row">{row.PLO10 == "" ? "-" : row.PLO10}</td>
+                  <td scope="row">{row.PLO11 == "" ? "-" : row.PLO11}</td>
+                  <td scope="row">{row.PLO12 == "" ? "-" : row.PLO12}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       ))}
     </div>

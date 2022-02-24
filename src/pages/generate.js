@@ -63,7 +63,6 @@ function Generate() {
       history.push(`/transcript-download/${regNo}/${name}`);
     }
   };
-
   return (
     <div className="App">
       <AppBar className={classes.appbar} align="center">
@@ -107,7 +106,12 @@ function Generate() {
             required
             error={batchError}
           />
-          <Button type="submit" variant="contained" className={classes.btn}>
+          <Button
+            type="submit"
+            variant="contained"
+            className={classes.btn}
+            onSubmit={handleSubmit}
+          >
             Generate
           </Button>
         </form>

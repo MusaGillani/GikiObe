@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Download from "./pages/download";
 import Generate from "./pages/generate";
 import Populate from "./pages/populate";
-import Transcript from "./pages/transcript";
+import Bulk from "./pages/bulk";
+import All from "./pages/all";
 
 function App() {
   return (
@@ -19,6 +20,12 @@ function App() {
           </Route>
           <Route exact path="/populate">
             <Populate />
+          </Route>
+          <Route exact path="/bulk">
+            <Bulk />
+          </Route>
+          <Route exact path="/generate-transcript-arr/:regNo">
+            <All />
           </Route>
         </Switch>
       </Router>

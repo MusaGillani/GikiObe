@@ -2,17 +2,17 @@ import React, { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import Transcript from "./transcript";
 
-export default function Download() {
+export default function Download(props) {
   const componentRef = useRef();
 
   return (
     <div>
-      <Transcript ref={componentRef} />
+      {console.log(props.reg)}
+      <Transcript ref={componentRef} reg={props.reg} />
       <ReactToPrint
-        trigger={() => <button>Print this out!</button>}
+        // trigger={() => <button>Print this out!</button>}
         content={() => componentRef.current}
       />
-      {/* hello world */}
     </div>
   );
 }
