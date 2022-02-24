@@ -14,11 +14,6 @@ creata .env file and add below code (for mysql)
 
 e.g file
 DATABASE_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
-HOST=localhost
-USER=root
-PASSWORD=password
-PORT=3306
-DATABASE=obe_development
 
 run :
 in server dir

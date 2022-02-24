@@ -1,6 +1,4 @@
-const env = require("dotenv").config();
-const mysql = require("mysql2");
-const { PrismaClient, Prisma } = require("@prisma/client");
+const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 const router = require("express").Router();
@@ -67,44 +65,15 @@ router.get("/transcript/:reg", async (req, res, next) => {
       },
     });
 
-    // JSON RESPONSE sample transcript format
-    const trans = {
-      reg: data.reg,
-      // Semesters: [
-      /*
-        {
-            number : 1,
-            session: '' , fall/spring
-            courses: [
-                {
-                    code: '' ,
-                    plos: [
-                        {
-                            "PLO1": "",
-                            "PLO2": "",
-                            "PLO3": "",
-                            "PLO4": "Y",
-                            "PLO5": "",
-                            "PLO6": "",
-                            "PLO7": "",
-                            "PLO8": "",
-                            "PLO9": "Y",
-                            "PLO10": "",
-                            "PLO11": "",
-                            "PLO12": "Y"
-                        }
-                    ],
-                }
-            ]
-        }
-        */
-      // ],
-    };
+    // console.log(schemeCourses);
+
     let codes = [];
     schemeCourses.forEach((course) => {
       //   console.log(code);
       codes.push(course.CourseCode);
     });
+
+    // console.log("codes", codes);
 
     let result = await prisma.courseplo.findMany({
       select: {
@@ -138,9 +107,16 @@ router.get("/transcript/:reg", async (req, res, next) => {
       //   CourseTitle: true,
       // },
     });
+    // console.log("result", result);
 
-    // let semesters = new Map();
-    let semesters = {};
+    // let semesters = { };
+
+    let transcript = {
+      reg: data.reg,
+      name: student.Name,
+      faculty: student.Faculty,
+      batch: student.Batch,
+    };
 
     if (result) {
       // semesters.set(`${result.Semester}`, arr);
@@ -155,58 +131,69 @@ router.get("/transcript/:reg", async (req, res, next) => {
             CourseCode: obj.CourseCode,
           },
         });
-        console.log(course);
+        // console.log(course);
         obj["course_name"] = course.CourseTitle;
         obj["number"] = course.Semester;
-        // console.log(result);
       }
+
+      console.log("result", result.length);
 
       result.forEach((obj) => {
         // console.log(obj);
-        for (const key in obj) {
-          if (key == "Semester") {
-            // console.log(obj[key]);
-            if (!semesters.hasOwnProperty(`${obj[key]}`)) {
-              // semesters.set(`${obj[key]}`, []);
-              semesters[`${obj[key]}`] = [];
-              // semesters[`${obj["number"]}_${obj[key]}`] = [];
-            }
-            let keys = [];
-            // storing keys from obj
-            keys = Object.keys(obj)
-              // removing semester key from array
-              .filter((k) => k != key);
+        // for (const key in obj) {
 
-            // let values = new Map();
-            let values = {};
-            keys.forEach((i) => {
-              // values.set(i, obj[i]);
-              values[i] = obj[i];
-            });
-
-            // console.log(values);
-            // semesters.get(`${obj[key]}`).push(values);
-
-            // renaming CourseCode key to course_code
-            delete Object.assign(values, {
-              ["course_code"]: values["CourseCode"],
-            })["CourseCode"];
-
-            semesters[`${obj[key]}`].push(values);
-            // semesters[`${obj["number"]}_${obj[key]}`].push(values);
-            // console.log(semesters[`${obj[key]}`]);
-          }
+        // if (key == "Semester") {
+        // console.log(obj[key]);
+        const key = "Semester";
+        if (
+          !transcript.hasOwnProperty(`${obj["number"]}`)
+          // .hasOwnProperty(`${obj[key]}`)
+        ) {
+          // semesters.set(`${obj[key]}`, []);
+          // semesters[`${obj[key]}`] = [];
+          // semesters[`${obj[key]}`] = [];
+          transcript[`${obj["number"]}`] = {};
+          transcript[`${obj["number"]}`][`${obj[key]}`] = [];
+          // semesters[`${obj["number"]}_${obj[key]}`] = [];
         }
-        console.log(semesters);
+        let keys = [];
+        // storing keys from obj
+        keys = Object.keys(obj)
+          // removing semester key from array
+          .filter((k) => k != key);
+
+        // let values = new Map();
+        let values = {};
+        keys.forEach((i) => {
+          // values.set(i, obj[i]);
+          values[i] = obj[i];
+        });
+
+        // console.log(values);
+        // semesters.get(`${obj[key]}`).push(values);
+
+        // renaming CourseCode key to course_code
+        delete Object.assign(values, {
+          ["course_code"]: values["CourseCode"],
+        })["CourseCode"];
+
+        // semesters[`${obj[key]}`].push(values);
+        // semesters[`${obj["number"]}_${obj[key]}`].push(values);
+        // console.log(semesters[`${obj[key]}`]);
+
+        transcript[`${obj["number"]}`][`${obj[key]}`].push(values);
+        // }
+        // }
+        // console.log(semesters);
         // console.log(JSON.parse(semesters));
       });
     }
-
-    // console.log(JSON.parse(semesters));
-
-    // console.log(schemeCourses.length);
-    // console.log(typeof result);
-    res.send(JSON.stringify(semesters));
+    // let length = 0;
+    // Object.keys(transcript).forEach((key) => {
+    //   console.log(transcript[key]);
+    // });
+    // console.log("transcript", length);
+    res.send(JSON.stringify(transcript));
     // res.send(JSON.stringify(result));
   } catch (e) {
     console.log(e);
@@ -221,52 +208,8 @@ router.post("/add", async (req, res, next) => {
     // req.files.forEach((file) =>
     for (let i = 0; i < files.length; i++) {
       const filename = files[i].originalname;
-
-      // console.log(title);
-      // console.log(`${filename}`);
-      // const query = (filename) =>
-      //   `LOAD DATA INFILE 'E:\\GIK\\fyp\\Backend\\server\\csvs\\${filename}' INTO TABLE courseplo FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS (RegNo,CourseCode,Semester,PLO1,PLO2,PLO3,PLO4,PLO5,PLO6,PLO7,PLO8,PLO9,PLO10,PLO11,PLO12);`;
-      // query = `SELECT * FROM COURSEPLO;`;
-      // const result = await prisma.$queryRaw(
-      //   Prisma.sql`LOAD DATA INFILE 'E:\GIK\fyp\Backend\server\csvs\${filename}' INTO TABLE courseplo FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\n' IGNORE 1 ROWS (RegNo,CourseCode,Semester,PLO1,PLO2,PLO3,PLO4,PLO5,PLO6,PLO7,PLO8,PLO9,PLO10,PLO11,PLO12);`
-      // );
-      // const connection = await mysql.createConnection({
-      //   host: "localhost",
-      //   user: "root",
-      //   password: "Gillani1",
-      //   port: 3306,
-      //   database: "obe_development",
-      // });
-      const connection = mysql.createPool({
-        host: process.env.HOST,
-        user: process.env.USER,
-        password: process.env.PASSWORD,
-        port: process.env.DBPORT,
-        database: process.env.DATABASE,
-        waitForConnections: true,
-        connectionLimit: 10,
-        queueLimit: 0,
-      });
-      let command = "LOAD DATA INFILE '";
-      let filePath = "E:/GIK/fyp/Backend/server/csvs/";
-      let table =
-        "' INTO TABLE courseplo1 FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS (RegNo,CourseCode,Semester,@dummy,@dummy,PLO1,PLO2,PLO3,PLO4,PLO5,PLO6,PLO7,PLO8,PLO9,PLO10,PLO11,PLO12);";
-      let query = command + filePath + filename + table;
-      // const [results, fields] = await connection.execute(query);
-      // connection.end();
-      let resultQuery;
-      try {
-        resultQuery = await new Promise((resolve, reject) => {
-          connection.query(query, function (err, results, fields) {
-            return err ? reject(err) : resolve(results);
-          });
-        });
-      } catch (e) {
-        console.log(e);
-        res.status(404).send(e.toString);
-      }
-      console.log(resultQuery);
-      console.log(filename);
+      let data = await require("../helper/parse").read(filename);
+      console.log(data[0]["Reg No."]);
     }
     res.sendStatus(200);
   } catch (e) {
@@ -274,43 +217,5 @@ router.post("/add", async (req, res, next) => {
     res.status(404).send(e.toString);
   }
 });
-// router.get("/test", async (req, res, next) => {
-//   const filename = "courseplo3.csv";
-//   const users = await prisma.$executeRawUnsafe(
-//     `LOAD DATA INFILE 'E:\\GIK\\fyp\\Backend\\server\\csvs\\${filename}' INTO TABLE courseplo FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\\n' IGNORE 1 ROWS (RegNo,CourseCode,Semester,PLO1,PLO2,PLO3,PLO4,PLO5,PLO6,PLO7,PLO8,PLO9,PLO10,PLO11,PLO12);`
-//   );
 
-//   res.send(JSON.stringify(users));
-// });
-
-function execQuery(filename) {
-  return new Promise((resolve, reject) => {
-    const connection = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "Gillani1",
-      port: 3306,
-      database: "obe_development",
-    });
-
-    let command = "LOAD DATA INFILE '";
-    let query =
-      command +
-      "E:/GIK/fyp/Backend/server/csvs/" +
-      filename +
-      "' INTO TABLE courseplo1 FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 ROWS (RegNo,CourseCode,Semester,@dummy,@dummy,PLO1,PLO2,PLO3,PLO4,PLO5,PLO6,PLO7,PLO8,PLO9,PLO10,PLO11,PLO12);";
-    connection.query(query, function (err, results, fields) {
-      if (results) {
-        console.log(results); // results contains rows returned by server
-        console.log(fields); // fields contains extra meta data about results, if available
-        resolve(results);
-        // res.send("added");
-      } else {
-        console.log(err);
-        // res.send(err);
-        reject(err);
-      }
-    });
-  });
-}
 module.exports = router;
