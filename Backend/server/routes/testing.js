@@ -105,13 +105,21 @@ router.get("/transcript/:reg", async (req, res, next) => {
                     },
                 ],
             },
-            // include: {
-            //   CourseTitle: true,
-            // },
         });
-        // console.log("result", result);
 
-        // let semesters = { };
+        if (result) {
+            for (const obj of result) {
+                const course = await prisma.schemeofstudy.findFirst({
+                    select: {
+                        CourseTitle: true,
+                    },
+                    where: {
+                        CourseCode: obj.CourseCode,
+                    },
+                });
+                obj["courseTitle"] = course.CourseTitle;
+            }
+        }
 
         result.forEach((obj) => {
                 let [semType, year] = obj.Semester.split(' ');
@@ -130,6 +138,8 @@ router.get("/transcript/:reg", async (req, res, next) => {
             }
             tmpResult[row.year][row.semType].push(row);
         }
+
+
 
         let transcript = {
             reg: data.reg,
