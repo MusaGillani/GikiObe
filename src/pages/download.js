@@ -7,7 +7,7 @@ export default function Download(props) {
 
   return (
     <div>
-      {console.log(props.reg)}
+      {/* {console.log(props.reg)} */}
       <Transcript ref={componentRef} reg={props.reg} />
       <ReactToPrint
         // trigger={() => <button>Print this out!</button>}
