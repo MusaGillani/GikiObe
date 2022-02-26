@@ -5,6 +5,7 @@ import Generate from "./pages/generate";
 import Populate from "./pages/populate";
 import Bulk from "./pages/bulk";
 import All from "./pages/all";
+import GenerateModified from "./pages/generate_modified";
 
 function App() {
   return (
@@ -13,9 +14,9 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Generate />
+            <GenerateModified />
           </Route>
-          <Route exact path="/transcript-download/:regNo/:name">
+          <Route exact path="/transcript-download/:regNo">
             <Download />
           </Route>
           <Route exact path="/populate">
