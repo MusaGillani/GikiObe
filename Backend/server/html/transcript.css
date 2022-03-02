@@ -1,45 +1,93 @@
-/* .giki-logo{
-    height: 150px;
-    width: 150px;
-    margin-top: 10px;
-    margin-left: -100px;
-}
-.uni-name{
-    margin-top: 20px;
-    margin-right: 220px;
-} */
-
-/* .header {
-  display: grid;
-  grid-template-columns: 1fr 5fr;
-  /* justify-content: center;
-} */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Poppins:wght@500&display=swap');
 
 .header > div {
-  text-align: center;
+    text-align: center;
 }
 
 .giki-logo {
-  max-width: 65%;
-  max-height: 65%;
-  min-width: 50%;
-  min-height: 50%;
+    max-width: 65%;
+    max-height: 65%;
+    min-width: 50%;
+    min-height: 50%;
 }
 
 .student-data {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  /* margin-left: 35px;
-  margin-right: 35px;
-  margin-top: 20px; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 0.8em;
 }
 
-/* .title {
-  margin-top: 30px;
-} */
+.title > h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2em;
+    font-weight: bolder;
+}
+
+.title > h4 {
+    font-family: 'Poppins', sans-serif;;
+    font-size: 1em;
+}
 
 .rowhead {
-  text-align: center;
-  /* border: 1px solid black; */
+    text-align: center;
+    /* border: 1px solid black; */
+}
+
+tbody > tr > td {
+    font-size: 0.7em;
+}
+
+thead > tr > th {
+    font-size: 0.75em;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.25rem;
+}
+
+.w-10 {
+    table-layout: fixed;
+    width: 5em;
+    padding: 0;
+}
+
+.text-v {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 2em;
+    vertical-align: middle;
+    background-color: lightgray;
+}
+
+.tb-main col:nth-child(1) {
+    width: 3%;
+}
+
+.tb-main col:nth-child(2) {
+    width: 8%;
+}
+
+.tb-main col:nth-child(3) {
+    width: 33%;
+}
+
+.tb-main col:nth-child(n+4) {
+    width: 4.5%;
+}
+
+.tb-head {
+    width: 100%;
+}
+
+.tb-head col:nth-child(1) {
+    width: 42%;
+    border: none;
+}
+
+.tb-head col:nth-child(2) {
+    background-color: lightgray;
+    width: 50%;
 }
