@@ -57,10 +57,10 @@ const generatePdf = async (transcript) => {
     const reg = transcript["reg"];
 
     /* Check if the file for `html` build exists in system or not */
-    if (doesFileExist(buildPathHtml)) {
+    if (doesFileExist(buildPathHtml(reg))) {
       console.log("Deleting old build file");
       /* If the file exists delete the file from system */
-      fs.unlinkSync(buildPathHtml);
+      fs.unlinkSync(buildPathHtml(reg));
     }
 
     const logo = path.join(__dirname, "..", "assets", "logo.jpg");

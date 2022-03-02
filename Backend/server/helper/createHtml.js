@@ -89,20 +89,23 @@ const createHtml = (data, logo) => {
             </div>
           </div>
           <div>
-            ${Object.keys(details).map((row_r) => {
-              const ordered = Object.keys(details[row_r])
-                .sort()
-                .reduce((obj, key) => {
-                  obj[key] = details[row_r][key];
-                  return obj;
-                }, {});
-              let count = {};
-              return `
+            ${Object.keys(details)
+              .map((row_r) => {
+                const ordered = Object.keys(details[row_r])
+                  .sort()
+                  .reduce((obj, key) => {
+                    obj[key] = details[row_r][key];
+                    return obj;
+                  }, {});
+                let count = {};
+                return `
                 <div>
-                    ${Object.keys(ordered).map(
-                      (year) => `
+                    ${Object.keys(ordered)
+                      .map(
+                        (year) => `
                         <div>
-                        <div class="w-100"><table class="table table-bordered">
+                        <div class="w-100">
+                            <table class="table table-bordered">
                             <thead>
                                 <tr>
                                 <th
@@ -156,8 +159,9 @@ const createHtml = (data, logo) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                ${details[row_r][year].map(
-                                  (row) => `
+                                ${details[row_r][year]
+                                  .map(
+                                    (row) => `
                                 <tr>
                                 <td scope="row">${row.CourseCode}</td>
                                 <td scope="row">${row.courseTitle}</td>
@@ -259,7 +263,8 @@ const createHtml = (data, logo) => {
                                 </td>
                                 </tr>
                                 `
-                                )}
+                                  )
+                                  .join("")}
                                 <tr>
                                 <td scope="row" colspan="2" class="table-light rowhead">
                                     Semester
@@ -427,10 +432,12 @@ const createHtml = (data, logo) => {
                         </div>
                         </div>
                     `
-                    )}
+                      )
+                      .join("")}
                 </div>
                 `;
-            })}
+              })
+              .join("")}
           </div>
         </div>
       </body>
