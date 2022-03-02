@@ -1,7 +1,9 @@
 Backend/node_modules
 Backend/pacage-lock.json
 Backend/.env
-Backend/server/node_modules/
+Backend/server/node_modules
 Backend/server/config/config.js
 Backend/server/csvs/*
 /node_modules/*
+Backend/server/html/*.html
+Backend/server/pdfs/*
