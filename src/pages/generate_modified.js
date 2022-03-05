@@ -10,8 +10,7 @@ import { makeStyles } from "@material-ui/styles";
 import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
+
 import Typography from "@mui/material/Typography";
 import { useHistory } from "react-router-dom";
 const ITEM_HEIGHT = 48;
@@ -91,13 +90,6 @@ export default function GenerateModified() {
 
   return (
     <div className="App">
-      <AppBar className={classes.appbar} align="center">
-        <Toolbar>
-          <Typography variant="h6" component="div">
-            Generate Student Transcript
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <Container align="center">
         <form onSubmit={handleSubmit}>
           {batches && regNumbers && (
