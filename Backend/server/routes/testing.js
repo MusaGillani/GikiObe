@@ -1,5 +1,6 @@
 const transcriptController = require("../controllers").transcriptController;
 const router = require("express").Router();
+const prisma = require('../db/db');
 
 router.get("/student", async (req, res, next) => {
   const users = await prisma.student.findMany();
