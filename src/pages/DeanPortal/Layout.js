@@ -80,7 +80,7 @@ export default function Layout({ children }) {
     {
       text: "Allot Course to Instructor",
       icon: <EditIcon color="primary" />,
-      path: "/abc",
+      path: "/allot-course",
     },
   ];
 

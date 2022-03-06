@@ -7,14 +7,22 @@ import { Container } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { makeStyles } from "@material-ui/styles";
+import Button from "@mui/material/Button";
 
 const useStyles = makeStyles({
+  // form: {
+  //   marginTop: 100,
+  // },
   btn: {
     fontSize: 60,
+    marginLeft: 100,
     backgroundColor: "blue",
     "&:hover": {
       backgroundColor: "blue",
     },
+  },
+  abc: {
+    marginLeft: 450,
   },
   field: {
     paddingTop: 40,
@@ -23,12 +31,9 @@ const useStyles = makeStyles({
     width: 300,
     color: "blue",
   },
-  abc: {
-    paddingBottom: 75,
-  },
   box: {
     marginBottom: 100,
-    marginLeft: 200,
+    marginLeft: 350,
     marginTop: 200,
   },
 });
@@ -49,28 +54,45 @@ export default function BatchTrans() {
   const handleChange = (event) => {
     setSBatch(event);
   };
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // if (regNum) {
+    //   history.push(`/transcript-download/${regNum}`);
+    // }
+  };
   return (
     <div>
-      {console.log(batches)}
-      <Box sx={{ minWidth: 120 }} className={classes.box}>
-        <FormControl className={classes.field}>
-          <InputLabel id="demo-simple-select-label">Batch</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={sBatch}
-            label="Batch"
-            onChange={(e) => handleChange(e.target.value)}
+      {/* <Container> */}
+      <form onSubmit={handleSubmit}>
+        {console.log(batches)}
+        <Box sx={{ minWidth: 120 }} className={classes.box}>
+          <FormControl className={classes.field}>
+            <InputLabel id="demo-simple-select-label">Batch</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={sBatch}
+              label="Batch"
+              onChange={(e) => handleChange(e.target.value)}
+            >
+              {batches.map((name) => (
+                <MenuItem value={name}>{name}</MenuItem>
+              ))}
+            </Select>
+            {/* {console.log(sBatch)} */}
+          </FormControl>
+        </Box>
+        <div className={classes.abc}>
+          <Button
+            type="submit"
+            variant="contained"
+            // onSubmit={handleSubmit}
           >
-            {batches.map((name) => (
-              <MenuItem value={name}>{name}</MenuItem>
-            ))}
-          </Select>
-          {/* {console.log(sBatch)} */}
-        </FormControl>
-        <div></div>
-      </Box>
+            Generate
+          </Button>
+        </div>
+      </form>
+      {/* </Container> */}
     </div>
   );
 }

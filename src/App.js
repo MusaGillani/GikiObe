@@ -10,6 +10,7 @@ import DeanPortal from "./pages/DeanPortal/DeanPortal";
 import Layout from "./pages/DeanPortal/Layout";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import BatchTrans from "./pages/DeanPortal/BatchTrans";
+import AllotCourse from "./pages/DeanPortal/AllotCourse";
 
 const theme = createMuiTheme({
   palette: {
@@ -52,6 +53,9 @@ function App() {
             </Route>
             <Route exact path="/generate-transcript-batch">
               <BatchTrans />
+            </Route>
+            <Route exact path="/allot-course">
+              <AllotCourse />
             </Route>
           </Switch>
         </Layout>
