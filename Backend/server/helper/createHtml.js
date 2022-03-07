@@ -156,17 +156,17 @@ const createHtml = (data, logo) => {
                             <tbody>
                             <tr>
                             <td
-                                    class="text-v bg-light fw-bold"
+                                    class="text-v"
                                     scope="col"
                                     rowspan="0"
-                                >
+                                ><p>
                                     ${(() => {
                         if (year == 3)
                             return `Fall ${row_r}`;
                         else if (year == 2)
                             return `Summer ${row_r}`;
                         else return `Spring ${row_r}`;
-                    })()}
+                    })()}</p>
                                 </td>
                                 ${details[row_r][year]
                         .map(
