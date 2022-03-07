@@ -11,6 +11,7 @@ import Layout from "./pages/DeanPortal/Layout";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import BatchTrans from "./pages/DeanPortal/BatchTrans";
 import AllotCourse from "./pages/DeanPortal/AllotCourse";
+import AddCourse from "./pages/DeanPortal/AddCourse";
 
 const theme = createMuiTheme({
   palette: {
@@ -56,6 +57,9 @@ function App() {
             </Route>
             <Route exact path="/allot-course">
               <AllotCourse />
+            </Route>
+            <Route exact path="/addCourses">
+              <AddCourse />
             </Route>
           </Switch>
         </Layout>
