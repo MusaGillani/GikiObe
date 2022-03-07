@@ -12,16 +12,36 @@ export const Transcript = React.forwardRef((props, ref) => {
   const [faculty, setFaculty] = useState("");
   const [batch, setBatch] = useState("");
   //const [flag, setFlag] = useState(1);
+
   const commulative = {};
+
+  const courseWise = {};
+
+  function CourseCheck(a, PLO, course) {
+    let flag = 0;
+    if (course in courseWise && courseWise[course][PLO] != undefined) {
+      // console.log(courseWise);
+      if (a == "Y" && courseWise[course][PLO]["N"] == 1) flag = 1;
+    } else if (a == "Y")
+      courseWise[course] = { ...courseWise[course], [PLO]: { Y: 1, N: 0 } };
+    else if (a == "N")
+      courseWise[course] = { ...courseWise[course], [PLO]: { Y: 0, N: 1 } };
+    return flag;
+  }
+
   function yesNo(string) {
     if (string) return string.charAt(0).toUpperCase();
     else return "-";
   }
 
-  function count_semester(a, count, PLO) {
+  function count_semester(a, count, PLO, flag) {
     if (a != "-") {
-      if (PLO in commulative) commulative[PLO][a] = commulative[PLO][a] + 1;
-      else if (a == "Y") commulative[PLO] = { Y: 1, N: 0 };
+      if (PLO in commulative) {
+        if (flag == 1) {
+          commulative[PLO]["N"] = commulative[PLO]["N"] - 1;
+          commulative[PLO]["Y"] = commulative[PLO]["Y"] + 1;
+        } else commulative[PLO][a] = commulative[PLO][a] + 1;
+      } else if (a == "Y") commulative[PLO] = { Y: 1, N: 0 };
       else if (a == "N") commulative[PLO] = { Y: 0, N: 1 };
       if (PLO in count) count[PLO][a] = count[PLO][a] + 1;
       else if (a == "Y") count[PLO] = { Y: 1, N: 0 };
@@ -187,57 +207,166 @@ export const Transcript = React.forwardRef((props, ref) => {
                         </tr>
                       </thead>
                       <tbody>
+                        {console.log(courseWise)}
                         {details[row_r][year].map((row) => (
                           <tr>
                             <td scope="row">{row.CourseCode}</td>
                             <td scope="row">{row.courseTitle}</td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO1), count, "PLO1")}
+                              {count_semester(
+                                yesNo(row.PLO1),
+                                count,
+                                "PLO1",
+                                CourseCheck(
+                                  yesNo(row.PLO1),
+                                  "PLO1",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO1)}
                               {/* {console.log(count)} */}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO2), count, "PLO2")}
+                              {count_semester(
+                                yesNo(row.PLO2),
+                                count,
+                                "PLO2",
+                                CourseCheck(
+                                  yesNo(row.PLO2),
+                                  "PLO2",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO2)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO3), count, "PLO3")}
+                              {count_semester(
+                                yesNo(row.PLO3),
+                                count,
+                                "PLO3",
+                                CourseCheck(
+                                  yesNo(row.PLO3),
+                                  "PLO3",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO3)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO4), count, "PLO4")}
+                              {count_semester(
+                                yesNo(row.PLO4),
+                                count,
+                                "PLO4",
+                                CourseCheck(
+                                  yesNo(row.PLO4),
+                                  "PLO4",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO4)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO5), count, "PLO5")}
+                              {count_semester(
+                                yesNo(row.PLO5),
+                                count,
+                                "PLO5",
+                                CourseCheck(
+                                  yesNo(row.PLO5),
+                                  "PLO5",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO5)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO6), count, "PLO6")}
+                              {count_semester(
+                                yesNo(row.PLO6),
+                                count,
+                                "PLO6",
+                                CourseCheck(
+                                  yesNo(row.PLO6),
+                                  "PLO6",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO6)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO7), count, "PLO7")}
+                              {count_semester(
+                                yesNo(row.PLO7),
+                                count,
+                                "PLO7",
+                                CourseCheck(
+                                  yesNo(row.PLO7),
+                                  "PLO7",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO7)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO8), count, "PLO8")}
+                              {count_semester(
+                                yesNo(row.PLO8),
+                                count,
+                                "PLO8",
+                                CourseCheck(
+                                  yesNo(row.PLO8),
+                                  "PLO8",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO8)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO9), count, "PLO9")}
+                              {count_semester(
+                                yesNo(row.PLO9),
+                                count,
+                                "PLO9",
+                                CourseCheck(
+                                  yesNo(row.PLO9),
+                                  "PLO9",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO9)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO10), count, "PLO10")}
+                              {count_semester(
+                                yesNo(row.PLO10),
+                                count,
+                                "PLO10",
+                                CourseCheck(
+                                  yesNo(row.PLO10),
+                                  "PLO10",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO10)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO11), count, "PLO11")}
+                              {count_semester(
+                                yesNo(row.PLO11),
+                                count,
+                                "PLO11",
+                                CourseCheck(
+                                  yesNo(row.PLO4),
+                                  "PLO11",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO11)}
                             </td>
                             <td scope="row">
-                              {count_semester(yesNo(row.PLO12), count, "PLO12")}
+                              {count_semester(
+                                yesNo(row.PLO12),
+                                count,
+                                "PLO12",
+                                CourseCheck(
+                                  yesNo(row.PLO12),
+                                  "PLO12",
+                                  row.CourseCode
+                                )
+                              )}
                               {yesNo(row.PLO12)}
                             </td>
                           </tr>
@@ -295,7 +424,7 @@ export const Transcript = React.forwardRef((props, ref) => {
                             class="table-light rowhead"
                           >
                             Cummulative
-                            {console.log(count)}
+                            {/* {console.log(count)} */}
                             {commulativePLO()}
                           </td>
                           <td scope="row">
