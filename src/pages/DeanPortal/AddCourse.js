@@ -107,12 +107,16 @@ function AddCourse(props) {
             <div className="add-clos">
               <div className="add-button">
                 <Fab
-                  color="primary"
+                  color="#3F51B5"
                   aria-label="add"
                   onClick={createTextField}
-                  style={{ marginTop: "10px", marginLeft: "5px" }}
+                  style={{
+                    marginTop: "10px",
+                    marginLeft: "5px",
+                    color: "#3F51B5",
+                  }}
                 >
-                  <AddIcon />
+                  <AddIcon style={{ color: "#3F51B5" }} />
                 </Fab>
               </div>
               <div className="button-label">Add more...</div>
@@ -123,6 +127,7 @@ function AddCourse(props) {
           <Button
             type="submit"
             variant="contained"
+            style={{ color: "#C5CAE9", background: "#3F51B5" }}
             //   onSubmit={handleSubmit}
           >
             Submit

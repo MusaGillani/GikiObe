@@ -87,6 +87,7 @@ export default function BatchTrans() {
             type="submit"
             variant="contained"
             // onSubmit={handleSubmit}
+            style={{ color: "#C5CAE9", background: "#3F51B5" }}
           >
             Generate
           </Button>

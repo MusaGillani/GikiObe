@@ -1,10 +1,7 @@
 import { Container } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import CourseCard from "./CourseCard";
 import * as React from "react";
-import Sidebar from "./Sidebar";
-import Layout from "./Layout";
 export default function DeanPortal() {
   const [courses, setCourses] = React.useState([]);
   React.useEffect(() => {

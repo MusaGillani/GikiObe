@@ -14,7 +14,8 @@
   margin-left: 10px;
   font-weight: bold;
   font-size: 15px;
-  color: grey;
+  color: #757575;
+  background-color: "#3F51B5";
 }
 
 .heading {
@@ -38,4 +39,5 @@
 .btn {
   margin-top: 35px;
   margin-left: 250px;
+  color: #757575;
 }

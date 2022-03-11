@@ -1,26 +1,30 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Download from "./pages/download";
-import Generate from "./pages/generate";
 import Populate from "./pages/populate";
-import Bulk from "./pages/bulk";
-import All from "./pages/all";
 import GenerateModified from "./pages/generate_modified";
 import DeanPortal from "./pages/DeanPortal/DeanPortal";
 import Layout from "./pages/DeanPortal/Layout";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import { createTheme, ThemeProvider } from "@material-ui/core";
 import BatchTrans from "./pages/DeanPortal/BatchTrans";
 import AllotCourse from "./pages/DeanPortal/AllotCourse";
 import AddCourse from "./pages/DeanPortal/AddCourse";
+import InstMain from "./pages/InstructorPortal/InstMain";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import { AddCircleOutlined, SubjectOutlined } from "@material-ui/icons";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import DownloadIcon from "@mui/icons-material/Download";
+import EditIcon from "@mui/icons-material/Edit";
+import GradingScheme from "./pages/InstructorPortal/GradingScheme";
+import AlignHorizontalRightOutlinedIcon from "@mui/icons-material/AlignHorizontalRightOutlined";
+import AlignVerticalCenterOutlinedIcon from "@mui/icons-material/AlignVerticalCenterOutlined";
+import Assessments from "./pages/InstructorPortal/Assessments";
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
-    primary: {
-      main: "#044A7C",
-    },
-    secondary: {
-      main: "#044A7C",
-    },
+    primary: { main: "#009688", contrastText: "#BDBDBD" },
+    secondary: { main: "#009688", contrastText: "#BDBDBD" },
   },
   typography: {
     // fontFamily: "Quicksand",
@@ -31,38 +35,112 @@ const theme = createMuiTheme({
   },
 });
 
+const deanMenuItems = [
+  {
+    text: "Courses",
+    icon: <SubjectOutlined style={{ color: "#C5CAE9" }} />,
+    path: "/",
+  },
+  {
+    text: "Add Course",
+    icon: <AddCircleOutlined style={{ color: "#C5CAE9" }} />,
+    path: "/addCourses",
+  },
+  {
+    text: "Student Transcript",
+    icon: <DownloadForOfflineIcon style={{ color: "#C5CAE9" }} />,
+    path: "/generate-transcript",
+  },
+  {
+    text: "Batch Transcript",
+    icon: <DownloadIcon style={{ color: "#C5CAE9" }} />,
+    path: "/generate-transcript-batch",
+  },
+  {
+    text: "Course Allotment",
+    icon: <EditIcon style={{ color: "#C5CAE9" }} />,
+    path: "/allot-course",
+  },
+];
+
+const instructMenuItems = [
+  {
+    text: "Courses",
+    icon: <SubjectOutlined style={{ color: "#C5CAE9" }} />,
+    path: "/inst-login",
+  },
+  {
+    text: "Grading Scheme",
+    icon: <AlignVerticalCenterOutlinedIcon style={{ color: "#C5CAE9" }} />,
+    path: "/grading-scheme",
+  },
+  {
+    text: "Upload Marks",
+    icon: <AlignHorizontalRightOutlinedIcon style={{ color: "#C5CAE9" }} />,
+    path: "/assessments",
+  },
+];
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <Layout>
-          <Switch>
-            <Route exact path="/">
-              <DeanPortal />
-            </Route>
-            <Route exact path="/generate-transcript">
-              <GenerateModified />
-            </Route>
-            <Route exact path="/transcript-download/:regNo">
-              <Download />
-            </Route>
-            <Route exact path="/populate">
-              <Populate />
-            </Route>
-            <Route exact path="/bulk">
-              <Bulk />
-            </Route>
-            <Route exact path="/generate-transcript-batch">
-              <BatchTrans />
-            </Route>
-            <Route exact path="/allot-course">
-              <AllotCourse />
-            </Route>
-            <Route exact path="/addCourses">
-              <AddCourse />
-            </Route>
-          </Switch>
-        </Layout>
+        <Switch>
+          {/* Instructor Layout  */}
+
+          <Route path={["/inst-login", "/grading-scheme", "/assessments"]}>
+            <Layout deanMenuItems={instructMenuItems} login="Instructor Portal">
+              <Switch>
+                <Route exact path="/inst-login">
+                  <InstMain />
+                </Route>
+                <Route exact path="/grading-scheme">
+                  <GradingScheme />
+                </Route>
+                <Route exact path="/assessments">
+                  <Assessments />
+                </Route>
+              </Switch>
+            </Layout>
+          </Route>
+
+          {/* Dean Layout */}
+
+          <Route
+            path={[
+              "/",
+              "/generate-transcript",
+              "/transcript-download/:regNo",
+              "/populate",
+            ]}
+          >
+            <Layout deanMenuItems={deanMenuItems} login="Dean Portal">
+              <Switch>
+                <Route exact path="/courses">
+                  <DeanPortal />
+                </Route>
+                <Route exact path="/generate-transcript">
+                  <GenerateModified />
+                </Route>
+                <Route exact path="/transcript-download/:regNo">
+                  <Download />
+                </Route>
+                <Route exact path="/populate">
+                  <Populate />
+                </Route>
+                <Route exact path="/generate-transcript-batch">
+                  <BatchTrans />
+                </Route>
+                <Route exact path="/allot-course">
+                  <AllotCourse />
+                </Route>
+                <Route exact path="/addCourses">
+                  <AddCourse />
+                </Route>
+              </Switch>
+            </Layout>
+          </Route>
+        </Switch>
       </Router>
     </ThemeProvider>
   );

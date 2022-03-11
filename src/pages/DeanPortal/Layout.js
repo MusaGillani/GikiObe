@@ -15,13 +15,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { makeStyles } from "@material-ui/core/styles";
-import { AddCircleOutlined, SubjectOutlined } from "@material-ui/icons";
-import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
-import DownloadIcon from "@mui/icons-material/Download";
-import EditIcon from "@mui/icons-material/Edit";
 import { useHistory, useLocation } from "react-router-dom";
 import ListItem from "@material-ui/core/ListItem";
 
@@ -36,7 +30,8 @@ const useStyles = makeStyles((theme) => {
     },
     drawer: {
       width: drawerWidth,
-      color: "#1C83CD",
+      color: "#3F51B5",
+      backgroundColor: "#3F51B5",
     },
     drawerPaper: {
       width: drawerWidth,
@@ -45,7 +40,7 @@ const useStyles = makeStyles((theme) => {
       display: "flex",
     },
     active: {
-      background: "#5DBCFF",
+      background: "#303F9F",
     },
     title: {
       paddingTop: theme.spacing(2),
@@ -87,6 +82,8 @@ const closedMixin = (theme) => ({
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
+  justifyItems: "center",
+  justifySelf: "center",
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -94,6 +91,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
+
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
@@ -123,6 +121,7 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
+
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -133,37 +132,12 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function Layout({ children }) {
+export default function Layout(props) {
   let history = useHistory();
   const location = useLocation();
-  const menuItems = [
-    {
-      text: "Courses",
-      icon: <SubjectOutlined color="secondary" />,
-      path: "/",
-    },
-    {
-      text: "Add Course",
-      icon: <AddCircleOutlined color="primary" />,
-      path: "/addCourses",
-    },
-    {
-      text: "Student Transcript",
-      icon: <DownloadForOfflineIcon color="primary" />,
-      path: "/generate-transcript",
-    },
-    {
-      text: "Batch Transcript",
-      icon: <DownloadIcon color="primary" />,
-      path: "/generate-transcript-batch",
-    },
-    {
-      text: "Course Allotment",
-      icon: <EditIcon color="primary" />,
-      path: "/allot-course",
-    },
-  ];
-
+  const menuItems = props.deanMenuItems;
+  const children = props.children;
+  const portal = props.login;
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -180,10 +154,10 @@ export default function Layout({ children }) {
     <div>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="fixed" open={open}>
+        <AppBar position="fixed" open={open} style={{ background: "#3F51B5" }}>
           <Toolbar>
             <IconButton
-              color="inherit"
+              color="primary"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
               edge="start"
@@ -191,23 +165,37 @@ export default function Layout({ children }) {
                 marginRight: 5,
                 ...(open && { display: "none" }),
               }}
+              style={{ color: "#C5CAE9" }}
             >
-              <MenuIcon />
+              <MenuIcon style={{ color: "#C5CAE9" }} />
             </IconButton>
             <div className={classes.header}>
               {/* <Typography variant="h6" noWrap component="div">
                 GIKI-OBE
               </Typography> */}
               <Typography variant="h6" noWrap component="div">
-                Dean Portal
+                {portal}
               </Typography>
             </div>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open} anchor="left">
+        <Drawer
+          variant="permanent"
+          open={open}
+          anchor="left"
+          PaperProps={{
+            sx: {
+              backgroundColor: "#3F51B5",
+              color: "#FFFFFF",
+            },
+          }}
+        >
           <DrawerHeader className={classes.title}>
             <Typography variant="h5">GIKI-OBE</Typography>
-            <IconButton onClick={handleDrawerClose}>
+            <IconButton
+              onClick={handleDrawerClose}
+              style={{ color: "#C5CAE9" }}
+            >
               {theme.direction === "rtl" ? (
                 <ChevronRightIcon />
               ) : (
@@ -215,7 +203,7 @@ export default function Layout({ children }) {
               )}
             </IconButton>
           </DrawerHeader>
-          <Divider />
+          {/* <Divider /> */}
           <List>
             {menuItems.map((item) => (
               <ListItem
@@ -228,7 +216,7 @@ export default function Layout({ children }) {
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
-                    px: 2.5,
+                    px: 0,
                   }}
                   onClick={() => history.push(item.path)}
                 >

@@ -137,6 +137,7 @@ export default function GenerateModified() {
             variant="contained"
             className={classes.btn}
             onSubmit={handleSubmit}
+            style={{ color: "#C5CAE9", background: "#3F51B5" }}
           >
             Generate
           </Button>

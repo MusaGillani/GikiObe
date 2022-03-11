@@ -166,6 +166,7 @@ export default function GenerateModified() {
             variant="contained"
             className={classes.btn}
             onSubmit={handleSubmit}
+            style={{ color: "#C5CAE9", background: "#3F51B5" }}
           >
             Allot
           </Button>
@@ -197,7 +198,16 @@ export default function GenerateModified() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Confirm</Button>
+          <Button
+            onClick={handleClose}
+            style={{
+              color: "#C5CAE9",
+              background: "#3F51B5",
+              height: 20,
+            }}
+          >
+            Confirm
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
