@@ -1,6 +1,7 @@
 const transcriptController = require("../controllers").transcriptController;
 const router = require("express").Router();
 const prisma = require('../db/db');
+const { zipAllFiles } = require('../helper/zip');
 
 router.get("/student", async (req, res, next) => {
   const users = await prisma.student.findMany();
@@ -147,6 +148,25 @@ router.get("/students/:batch", async (req, res, next) => {
   } catch (e) {
     console.log(e);
     res.status(404).send(e);
+  }
+});
+
+router.get('/zip', async (req, res, next) => {
+  try {
+    console.log('route hit!')
+    let result = await zipAllFiles();
+    // res.send(JSON.stringify("Download started!"));
+    const fileName = 'pdfs.zip';
+    const fileType = 'application/zip';
+    res.writeHead(200, {
+      'Content-Disposition': `attachment; filename="${fileName}"`,
+      'Content-Type': fileType,
+    })
+    // res.send(result);
+    res.end(result);
+  } catch (error) {
+    console.log("Archive of bulk files failed!");
+    res.status(404).send(JSON.stringify(error.toString()));
   }
 });
 
