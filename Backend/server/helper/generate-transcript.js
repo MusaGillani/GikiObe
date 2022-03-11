@@ -20,9 +20,9 @@ const doesFileExist = (filePath) => {
 };
 const printPdf = async (reg) => {
   console.log("Starting: Generating PDF Process, Kindly wait ..");
-  /** Launch a headleass browser */
+  /** Launch a headless browser */
   const browser = await puppeteer.launch();
-  /* 1- Ccreate a newPage() object. It is created in default browser context. */
+  /* 1- Create a newPage() object. It is created in default browser context. */
   const page = await browser.newPage();
   /* 2- Will open our generated `.html` file in the new Page instance. */
   await page.goto(buildPathHtml(reg), { waitUntil: "networkidle0" });

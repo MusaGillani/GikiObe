@@ -49,6 +49,8 @@ exports.bulkTranscripts = async (req, res, next) => {
     for (reg of result) {
       let transcript = await fetchTranscript(reg);
       await generatePdf(transcript);
+      // pdfs generated will be stored in pdfs folder 
+      // call a function that will zip those pdfs 
     }
 
     res.send(JSON.stringify("generated pdfs!"));
