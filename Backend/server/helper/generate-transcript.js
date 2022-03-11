@@ -1,8 +1,13 @@
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
+const url = require("url");
 const puppeteer = require("puppeteer");
 // Build paths
-const { buildPathHtml, buildPathPdf } = require("./buildPaths");
+const { buildPathHtml, buildPathPdf } = require("./buildPaths").buildPaths;
+const { linux, win } = require("./buildPaths").executablePath;
+
+const osPlatform = os.platform(); // possible values are: 'darwin', 'freebsd', 'linux', 'sunos' or 'win32'
 
 /**
  * @description this method takes in a path as a string & returns true/false
@@ -19,13 +24,25 @@ const doesFileExist = (filePath) => {
   }
 };
 const printPdf = async (reg) => {
+  console.log("browser running on platform: ", osPlatform);
+  let executablePath;
+  if (/^win/i.test(osPlatform)) {
+    executablePath = win;
+  } else if (/^linux/i.test(osPlatform)) {
+    executablePath = linux;
+  }
   console.log("Starting: Generating PDF Process, Kindly wait ..");
-  /** Launch a headless browser */
-  const browser = await puppeteer.launch();
-  /* 1- Create a newPage() object. It is created in default browser context. */
+  /** Launch a headleass browser */
+  const browser = await puppeteer.launch({
+    executablePath: executablePath,
+    args: ["--no-sandbox"],
+  });
+  /* 1- Ccreate a newPage() object. It is created in default browser context. */
   const page = await browser.newPage();
   /* 2- Will open our generated `.html` file in the new Page instance. */
-  await page.goto(buildPathHtml(reg), { waitUntil: "networkidle0" });
+  const pdfUrl = url.pathToFileURL(buildPathHtml(reg)).href;
+  await page.goto(pdfUrl, { waitUntil: "networkidle0" });
+  // await page.goto(buildPathHtml(reg), { waitUntil: "networkidle0" });
   /* 3- Take a snapshot of the PDF */
   const pdf = await page.pdf({
     format: "A4",
@@ -35,6 +52,7 @@ const printPdf = async (reg) => {
       bottom: "20px",
       left: "20px",
     },
+    printBackground: true,
   });
   /* 4- Cleanup: close browser. */
   await browser.close();

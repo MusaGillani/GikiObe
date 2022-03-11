@@ -53,13 +53,20 @@ thead > tr > th {
 }
 
 .text-v {
-    writing-mode: vertical-rl;
+    background: lightgray !important;
     text-orientation: mixed;
     text-transform: uppercase;
     letter-spacing: 2px;
     line-height: 2em;
     vertical-align: middle;
     background-color: lightgray;
+}
+.text-v > p {
+    transform: rotate(90deg);
+    width: 2rem;
+    white-space: nowrap;
+    margin-left: -3px;
+    margin-top: -40px;
 }
 
 .tb-main col:nth-child(1) {

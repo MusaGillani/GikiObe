@@ -30,10 +30,12 @@ model courseplo {
 }
 
 model schemeofstudy {
-  Semester    String @db.VarChar(30)
-  Batch       Int
-  CourseCode  String @id @db.VarChar(30)
-  CourseTitle String @db.VarChar(255)
+  Semester          String              @db.VarChar(30)
+  Batch             Int
+  CourseCode        String              @id @db.VarChar(30)
+  CourseTitle       String              @db.VarChar(255)
+  course_allotments course_allotments[]
+  course_clos       course_clos[]
 }
 
 model student {
@@ -42,4 +44,39 @@ model student {
   Name      String      @db.VarChar(30)
   Batch     Int?
   courseplo courseplo[]
+}
+
+model course_allotments {
+  CourseCode         String             @db.VarChar(30)
+  instructor_id      String             @db.VarChar(255)
+  schemeofstudy      schemeofstudy      @relation(fields: [CourseCode], references: [CourseCode], onDelete: NoAction, onUpdate: NoAction, map: "course_allotments_ibfk_2")
+  course_instructors course_instructors @relation(fields: [instructor_id], references: [instructor_id], onDelete: NoAction, onUpdate: NoAction, map: "course_allotments_ibfk_1")
+
+  @@id([CourseCode, instructor_id])
+  @@index([instructor_id], map: "instructor_id")
+}
+
+model course_clos {
+  CourseCode    String        @db.VarChar(30)
+  clo_num       Int
+  clo_desc      String        @db.VarChar(255)
+  mapped_on_plo Int
+  schemeofstudy schemeofstudy @relation(fields: [CourseCode], references: [CourseCode], onDelete: NoAction, onUpdate: NoAction, map: "course_clos_ibfk_1")
+  plos          plos          @relation(fields: [mapped_on_plo], references: [plo_num], onDelete: NoAction, onUpdate: NoAction, map: "course_clos_ibfk_2")
+
+  @@id([CourseCode, clo_num])
+  @@index([mapped_on_plo], map: "mapped_on_plo")
+}
+
+model course_instructors {
+  instructor_id     String              @id @db.VarChar(255)
+  full_name         String              @db.VarChar(20)
+  faculty           String?             @db.VarChar(20)
+  course_allotments course_allotments[]
+}
+
+model plos {
+  plo_num     Int           @id
+  plo_desc    String        @db.VarChar(255)
+  course_clos course_clos[]
 }
