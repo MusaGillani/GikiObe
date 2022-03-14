@@ -40,7 +40,13 @@ function AddCourse(props) {
 
   return (
     <div className="popup">
-      <Typography gutterBottom variant="h4" align="center" className="title">
+      <Typography
+        gutterBottom
+        variant="h4"
+        align="center"
+        className="title"
+        style={{ color: "#303F9F" }}
+      >
         Add Course
       </Typography>
       <form>
@@ -65,7 +71,9 @@ function AddCourse(props) {
                 required
               ></TextField>
             </Grid>
-            <h5 className="heading">Add CLO/PLO Mapping</h5>
+            <h5 className="heading" style={{ color: "#303F9F" }}>
+              Add CLO/PLO Mapping
+            </h5>
             {cloFields.map((clof) => (
               <Grid xs={12} sm={12} item className="abc">
                 <div>
@@ -127,7 +135,7 @@ function AddCourse(props) {
           <Button
             type="submit"
             variant="contained"
-            style={{ color: "#C5CAE9", background: "#3F51B5" }}
+            style={{ color: "#303F9F", background: "#C5CAE9" }}
             //   onSubmit={handleSubmit}
           >
             Submit
