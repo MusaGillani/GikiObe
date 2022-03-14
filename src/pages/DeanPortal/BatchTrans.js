@@ -8,6 +8,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import { makeStyles } from "@material-ui/styles";
 import Button from "@mui/material/Button";
+import axios from "axios";
 
 const useStyles = makeStyles({
   // form: {
@@ -50,15 +51,18 @@ export default function BatchTrans() {
   const [batches, setBatches] = useState([]);
   const [sBatch, setSBatch] = useState("");
   const classes = useStyles();
+  const [res, setRes] = useState([]);
 
   const handleChange = (event) => {
     setSBatch(event);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (regNum) {
-    //   history.push(`/transcript-download/${regNum}`);
-    // }
+
+    // axios
+    //   .get(`http://127.0.0.1:8000/testing/bulk/${sBatch}`)
+    //   .then((res) => setRes({ post: _.get(res, "data") }));
+    // console.log(res);
   };
   return (
     <div>
@@ -87,7 +91,7 @@ export default function BatchTrans() {
             type="submit"
             variant="contained"
             // onSubmit={handleSubmit}
-            style={{ color: "#C5CAE9", background: "#3F51B5" }}
+            style={{ color: "#303F9F", background: "#C5CAE9" }}
           >
             Generate
           </Button>

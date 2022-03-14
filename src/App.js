@@ -10,8 +10,6 @@ import BatchTrans from "./pages/DeanPortal/BatchTrans";
 import AllotCourse from "./pages/DeanPortal/AllotCourse";
 import AddCourse from "./pages/DeanPortal/AddCourse";
 import InstMain from "./pages/InstructorPortal/InstMain";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { AddCircleOutlined, SubjectOutlined } from "@material-ui/icons";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -20,6 +18,8 @@ import GradingScheme from "./pages/InstructorPortal/GradingScheme";
 import AlignHorizontalRightOutlinedIcon from "@mui/icons-material/AlignHorizontalRightOutlined";
 import AlignVerticalCenterOutlinedIcon from "@mui/icons-material/AlignVerticalCenterOutlined";
 import Assessments from "./pages/InstructorPortal/Assessments";
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import ChartsGrid from "./pages/InstructorPortal/MainDash/ChartsGrid";
 
 const theme = createTheme({
   palette: {
@@ -32,6 +32,22 @@ const theme = createTheme({
     fontWeightRegular: 500,
     fontWeightMedium: 600,
     fontWeightBold: 700,
+  },
+  overrides: {
+    MuiSelect: {
+      select: {
+        "&:focus": {
+          backgroundColor: "#ffddec",
+          color: "brown",
+        },
+        "&:before": {
+          borderColor: "orange",
+        },
+        "&:after": {
+          borderColor: "green",
+        },
+      },
+    },
   },
 });
 
@@ -65,6 +81,11 @@ const deanMenuItems = [
 
 const instructMenuItems = [
   {
+    text: "Analysis",
+    icon: <AnalyticsIcon style={{ color: "#C5CAE9" }} />,
+    path: "/analysis",
+  },
+  {
     text: "Courses",
     icon: <SubjectOutlined style={{ color: "#C5CAE9" }} />,
     path: "/inst-login",
@@ -88,7 +109,14 @@ function App() {
         <Switch>
           {/* Instructor Layout  */}
 
-          <Route path={["/inst-login", "/grading-scheme", "/assessments"]}>
+          <Route
+            path={[
+              "/inst-login",
+              "/grading-scheme",
+              "/assessments",
+              "/analysis",
+            ]}
+          >
             <Layout deanMenuItems={instructMenuItems} login="Instructor Portal">
               <Switch>
                 <Route exact path="/inst-login">
@@ -99,6 +127,9 @@ function App() {
                 </Route>
                 <Route exact path="/assessments">
                   <Assessments />
+                </Route>
+                <Route exact path="/analysis">
+                  <ChartsGrid />
                 </Route>
               </Switch>
             </Layout>
