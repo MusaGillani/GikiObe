@@ -14,6 +14,8 @@ in root directory to install dependencies
 - sample.env file has the format for .env file
 - replace USERNAME, PASSWORD, HOST, PORT, DATABASE-NAME
 
+### Run below commands for each pull/fetch
+
 **run :**
 in server dir
 $ npx prisma db push
