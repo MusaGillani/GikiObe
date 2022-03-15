@@ -7,3 +7,7 @@ Backend/server/csvs/*
 /node_modules/*
 Backend/server/html/*.html
 Backend/server/pdfs/*
+Backend/server/node_modules/.package-lock.json
+Backend/server/node_modules/.bin/prisma
+Backend/server/node_modules/.bin/prisma2
+.gitignore
