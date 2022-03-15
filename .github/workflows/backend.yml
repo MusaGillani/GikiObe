@@ -3,7 +3,6 @@ name: backend
 on:
   push:
     branches: [backend]
-  workflow_disptach:
 jobs:
   # build:
 
