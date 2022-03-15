@@ -4,22 +4,25 @@ OBE evaluation system
 
 ## Usage
 
-run :
+#### Setup (incase of fresh pull/clone)
+
+**run :**
 $ npm install
-in backend directory to install dependencies
+in root directory to install dependencies
 
-create a db in mysql and use the name below
+- create a .env file and add below code (for mysql)
+- sample.env file has the format for .env file
+- replace USERNAME, PASSWORD, HOST, PORT, DATABASE-NAME
 
-creata .env file and add below code (for mysql)
-
-e.g file
-DATABASE_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
-
-run :
+**run :**
 in server dir
 $ npx prisma db push
 $ npx prisma generate
 
+**run :**
+in root dir
+$ node start
+
 to start the server in development
-in backend dir
-npm run dev
+in root dir
+$ npm run dev
