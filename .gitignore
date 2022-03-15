@@ -3,4 +3,4 @@ server/csvs/**
 node_modules
 Backend/server/html/*.html
 Backend/server/pdfs/**
-Backend/server/node_modulesS
+Backend/server/node_modules
