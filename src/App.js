@@ -23,8 +23,8 @@ import ChartsGrid from "./pages/InstructorPortal/MainDash/ChartsGrid";
 
 const theme = createTheme({
   palette: {
-    primary: { main: "#009688", contrastText: "#BDBDBD" },
-    secondary: { main: "#009688", contrastText: "#BDBDBD" },
+    primary: { main: "#3F51B5", contrastText: "#C5CAE9" },
+    secondary: { main: "#3F51B5", contrastText: "#C5CAE9" },
   },
   typography: {
     // fontFamily: "Quicksand",

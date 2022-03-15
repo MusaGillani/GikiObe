@@ -37,6 +37,29 @@ export const options = {
       text: "Chart.js Line Chart",
     },
   },
+  scales: {
+    yAxes: {
+      title: {
+        display: true,
+        text: "Student Marks",
+        font: {
+          size: 15,
+        },
+      },
+      ticks: {
+        precision: 0,
+      },
+    },
+    xAxes: {
+      title: {
+        display: true,
+        text: "Students",
+        font: {
+          size: 15,
+        },
+      },
+    },
+  },
 };
 
 const labels = Array.from({ length: 38 }, (_, index) => index + 1);

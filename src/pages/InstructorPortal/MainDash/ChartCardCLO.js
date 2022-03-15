@@ -35,6 +35,29 @@ export const options = {
       text: "Chart.js Bar Chart",
     },
   },
+  scales: {
+    yAxes: {
+      title: {
+        display: true,
+        text: "no of students",
+        font: {
+          size: 15,
+        },
+      },
+      ticks: {
+        precision: 0,
+      },
+    },
+    xAxes: {
+      title: {
+        display: true,
+        text: "Course CLOs",
+        font: {
+          size: 15,
+        },
+      },
+    },
+  },
 };
 
 const labels = ["CLO1", "CLO2", "CLO3", "CLO4", "CLO5"];

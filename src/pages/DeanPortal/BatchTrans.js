@@ -59,10 +59,10 @@ export default function BatchTrans() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // axios
-    //   .get(`http://127.0.0.1:8000/testing/bulk/${sBatch}`)
-    //   .then((res) => setRes({ post: _.get(res, "data") }));
-    // console.log(res);
+    //   axios
+    //     .get(`http://127.0.0.1:8000/testing/zip`)
+    //     .then((res) => setRes({ post: _.get(res, "data") }));
+    //   console.log(res);
   };
   return (
     <div>
