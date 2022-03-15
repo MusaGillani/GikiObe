@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node bin/www",
-    "dev": "nodemon bin/www"
+    "dev": "nodemon bin/www",
+    "heroku-prebuild": "cd server && npx prisma db pull && npx prisma generate"
   },
   "author": "Musa Gillani",
   "license": "ISC",
