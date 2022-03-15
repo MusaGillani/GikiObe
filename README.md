@@ -1,6 +1,4 @@
-# GikiObe
-
-OBE evaluation system
+# OBE Evaluation System
 
 ## Usage
 
