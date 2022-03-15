@@ -1,4 +1,5 @@
 const transcriptController = require("../controllers").transcriptController;
+const cloController = require("../controllers").cloController;
 const router = require("express").Router();
 const prisma = require('../db/db');
 const { zipAllFiles } = require('../helper/zip');
@@ -169,5 +170,7 @@ router.get('/zip', async (req, res, next) => {
     res.status(404).send(JSON.stringify(error.toString()));
   }
 });
+
+router.get("/asd", cloController.getCLO);
 
 module.exports = router;

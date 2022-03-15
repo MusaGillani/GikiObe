@@ -1,6 +1,6 @@
 .env
 server/csvs/**
 node_modules
-Backend/server/html/*.html
-Backend/server/pdfs/**
-Backend/server/node_modules
+server/html/*.html
+server/pdfs/**
+server/node_modules
