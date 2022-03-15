@@ -34,4 +34,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "obe-backend"
           heroku_email: ${{secrets.HEROKU_EMAIL}}
-          procfile: "release: npx prisma migrate deploy"
+          procfile: "web: cd server && npx prisma generate && cd .. && npm start"
