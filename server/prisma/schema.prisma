@@ -76,7 +76,23 @@ model course_instructors {
 }
 
 model plos {
-  plo_num     Int           @id
-  plo_desc    String        @db.VarChar(255)
-  course_clos course_clos[]
+  plo_num       Int           @id
+  plo_statement String        @db.VarChar(255)
+  plo_desc      String        @db.Text
+  course_clos   course_clos[]
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model assessments {
+  CourseCode           String  @db.VarChar(30)
+  student_reg_no       Int     @db.UnsignedInt
+  assessment_type      String  @db.VarChar(30)
+  marks_obtained       Decimal @db.Decimal(5, 2)
+  total_marks          Decimal @db.Decimal(5, 2)
+  mapped_on_clo        Int
+  weightage_percentage Decimal @db.Decimal(5, 2)
+
+  @@index([CourseCode], map: "CourseCode")
+  @@index([student_reg_no], map: "student_reg_no")
+  @@ignore
 }
