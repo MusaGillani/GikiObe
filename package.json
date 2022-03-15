@@ -2,7 +2,7 @@
   "name": "giki-obe-server",
   "version": "1.0.0",
   "description": "backend server for the GIKI OBE web application",
-  "main": "app.js",
+  "main": "bin/www",
   "scripts": {
     "start": "node bin/www",
     "dev": "nodemon bin/www"
