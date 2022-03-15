@@ -24,7 +24,7 @@ model courseplo {
   PLO10      String   @db.VarChar(30)
   PLO11      String   @db.VarChar(30)
   PLO12      String   @db.VarChar(30)
-  student    student? @relation(fields: [RegNo], references: [RegNo], onDelete: NoAction, onUpdate: NoAction, map: "courseplo_ibfk_1")
+  student    student? @relation(fields: [RegNo], references: [RegNo], onDelete: Restrict, onUpdate: Restrict, map: "courseplo_ibfk_1")
 
   @@index([RegNo], map: "RegNo")
 }
@@ -49,8 +49,8 @@ model student {
 model course_allotments {
   CourseCode         String             @db.VarChar(30)
   instructor_id      String             @db.VarChar(255)
-  schemeofstudy      schemeofstudy      @relation(fields: [CourseCode], references: [CourseCode], onDelete: NoAction, onUpdate: NoAction, map: "course_allotments_ibfk_2")
-  course_instructors course_instructors @relation(fields: [instructor_id], references: [instructor_id], onDelete: NoAction, onUpdate: NoAction, map: "course_allotments_ibfk_1")
+  schemeofstudy      schemeofstudy      @relation(fields: [CourseCode], references: [CourseCode], onUpdate: Restrict, map: "course_allotments_ibfk_2")
+  course_instructors course_instructors @relation(fields: [instructor_id], references: [instructor_id], onUpdate: Restrict, map: "course_allotments_ibfk_1")
 
   @@id([CourseCode, instructor_id])
   @@index([instructor_id], map: "instructor_id")
@@ -61,8 +61,9 @@ model course_clos {
   clo_num       Int
   clo_desc      String        @db.VarChar(255)
   mapped_on_plo Int
-  schemeofstudy schemeofstudy @relation(fields: [CourseCode], references: [CourseCode], onDelete: NoAction, onUpdate: NoAction, map: "course_clos_ibfk_1")
-  plos          plos          @relation(fields: [mapped_on_plo], references: [plo_num], onDelete: NoAction, onUpdate: NoAction, map: "course_clos_ibfk_2")
+  weightage     Decimal       @db.Decimal(5, 2)
+  schemeofstudy schemeofstudy @relation(fields: [CourseCode], references: [CourseCode], onUpdate: Restrict, map: "course_clos_ibfk_1")
+  plos          plos          @relation(fields: [mapped_on_plo], references: [plo_num], onUpdate: Restrict, map: "course_clos_ibfk_2")
 
   @@id([CourseCode, clo_num])
   @@index([mapped_on_plo], map: "mapped_on_plo")
