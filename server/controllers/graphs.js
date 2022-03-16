@@ -77,7 +77,7 @@ exports.ploPerformance = async (req, res, next) => {
     commulative.PLO10 = ((commulative.PLO10 / avgSize) * 100).toFixed(2);
     commulative.PLO11 = ((commulative.PLO11 / avgSize) * 100).toFixed(2);
     commulative.PLO12 = ((commulative.PLO12 / avgSize) * 100).toFixed(2);
-
+    // await setTimeout(() => res.send(JSON.stringify(commulative)), 35000);
     res.send(JSON.stringify(commulative));
   } catch (e) {
     console.log(e.toString());
