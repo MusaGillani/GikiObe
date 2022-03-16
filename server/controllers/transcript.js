@@ -49,7 +49,21 @@ exports.bulkTranscripts = async (req, res, next) => {
       // call a function that will zip those pdfs
     }
 
-    res.send(JSON.stringify("generated pdfs!"));
+    console.log("zipping...");
+
+    const filename = require("path").join(
+      __dirname,
+      "..",
+      "zipFiles",
+      "output.zip"
+    );
+    await zipAndSaveFile();
+    // res.writeHead(200, );
+    res.setHeader("Content-Disposition", "attachment; filename=output.zip");
+    res.setHeader("Content-Type", "application/zip");
+    res.sendFile(filename);
+
+    // res.send(JSON.stringify("generated pdfs!"));
   } catch (e) {
     console.log(e);
     res.status(404).send(JSON.stringify({ message: e.toString() }));
