@@ -22,11 +22,12 @@ exports.singlePdf = async (req, res, next) => {
     let transcript = await fetchTranscript(parseInt(reg));
     await generatePdf(transcript);
     const { buildPathPdf } = require("../helper/buildPaths").buildPaths;
-    const filename = require("path").basename(buildPathPdf(reg));
+    const filePath = buildPathPdf(reg);
+    const filename = require("path").basename(filePath);
 
-    res.setHeader("Content-Disposition", `attachment; filename=${zipName}`);
+    res.setHeader("Content-Disposition", `attachment; filename=${filename}`);
     res.setHeader("Content-Type", "application/pdf");
-    res.sendFile(filename);
+    res.sendFile(filePath);
 
     // res.send(JSON.stringify("generated pdf for " + reg));
   } catch (e) {
