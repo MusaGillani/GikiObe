@@ -4,3 +4,4 @@ node_modules
 server/html/*.html
 server/pdfs/**
 server/node_modules
+server/zipFiles/**
