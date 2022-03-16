@@ -1,8 +1,10 @@
+const router = require("express").Router();
+const prisma = require("../db/db");
+
+const { zipAllFiles } = require("../helper/zip");
 const transcriptController = require("../controllers").transcriptController;
 const cloController = require("../controllers").cloController;
-const router = require("express").Router();
-const prisma = require('../db/db');
-const { zipAllFiles } = require('../helper/zip');
+const graphsController = require("../controllers").graphsController;
 
 router.get("/student", async (req, res, next) => {
   const users = await prisma.student.findMany();
@@ -152,17 +154,17 @@ router.get("/students/:batch", async (req, res, next) => {
   }
 });
 
-router.get('/zip', async (req, res, next) => {
+router.get("/zip", async (req, res, next) => {
   try {
-    console.log('route hit!')
+    console.log("route hit!");
     let result = await zipAllFiles();
     // res.send(JSON.stringify("Download started!"));
-    const fileName = 'pdfs.zip';
-    const fileType = 'application/zip';
+    const fileName = "pdfs.zip";
+    const fileType = "application/zip";
     res.writeHead(200, {
-      'Content-Disposition': `attachment; filename="${fileName}"`,
-      'Content-Type': fileType,
-    })
+      "Content-Disposition": `attachment; filename="${fileName}"`,
+      "Content-Type": fileType,
+    });
     // res.send(result);
     res.end(result);
   } catch (error) {
@@ -171,6 +173,8 @@ router.get('/zip', async (req, res, next) => {
   }
 });
 
-router.get("/asd", cloController.getCLO);
+router.get("/getCLOs", cloController.getCLO);
+
+router.get("/plo-performance/:batch", graphsController.ploPerformance);
 
 module.exports = router;
