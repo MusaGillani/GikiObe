@@ -21,11 +21,17 @@ exports.singlePdf = async (req, res, next) => {
     let reg = req.params.reg;
     let transcript = await fetchTranscript(parseInt(reg));
     await generatePdf(transcript);
+    const { buildPathPdf } = require("../helper/buildPaths").buildPaths;
+    const filename = require("path").basename(buildPathPdf(reg));
 
-    res.send(JSON.stringify("generated pdf for " + reg));
+    res.setHeader("Content-Disposition", `attachment; filename=${zipName}`);
+    res.setHeader("Content-Type", "application/pdf");
+    res.sendFile(filename);
+
+    // res.send(JSON.stringify("generated pdf for " + reg));
   } catch (e) {
     console.log(e);
-    res.status(404).send(JSON.stringify({ message: e.toString() }));
+    // res.status(404).send(JSON.stringify({ message: e.toString() }));
   }
 };
 
@@ -64,6 +70,5 @@ exports.bulkTranscripts = async (req, res, next) => {
     // res.send(JSON.stringify("generated pdfs!"));
   } catch (e) {
     console.log(e);
-    res.status(404).send(JSON.stringify({ message: e.toString() }));
   }
 };
