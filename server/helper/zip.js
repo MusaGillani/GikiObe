@@ -12,13 +12,13 @@ exports.zipAllFiles = async () => {
 };
 
 //TODO add output filename
-exports.zipAndSaveFile = async () => {
+exports.zipAndSaveFile = async (outputFile) => {
   try {
     const zip = new AdmZip();
-    const outputFile = "/output.zip";
+    const writePath = path.join(outputPath, outputFile);
     zip.addLocalFolder(inputPath);
-    zip.writeZip(outputPath + outputFile);
-    console.log(`Created ${outputPath + outputFile} successfully`);
+    zip.writeZip(writePath);
+    console.log(`Created ${writePath} successfully`);
   } catch (e) {
     console.log(`Something went wrong. ${e}`);
   }
