@@ -10,6 +10,8 @@ import { makeStyles } from "@material-ui/styles";
 import Button from "@mui/material/Button";
 import axios from "axios";
 
+import saveAs from "save-as";
+
 const useStyles = makeStyles({
   // form: {
   //   marginTop: 100,
@@ -58,11 +60,29 @@ export default function BatchTrans() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    //   axios
-    //     .get(`http://127.0.0.1:8000/testing/zip`)
-    //     .then((res) => setRes({ post: _.get(res, "data") }));
-    //   console.log(res);
+    fetch(`http://127.0.0.1:8000/testing/bulk/${sBatch}`, {
+      responseType: "binary",
+    })
+      .then(async function (response) {
+        console.log("response: ", response);
+        console.log("response.type: ", response.type);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(
+          // new Blob([res.data], { type: "application/zip" })
+          blob
+        );
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${sBatch}.zip`);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+        // saveAs(blob, 'hello world.txt')
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    // console.log(res);
   };
   return (
     <div>
