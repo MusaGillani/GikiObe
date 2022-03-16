@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const prisma = require("../db/db");
 
-const { zipAllFiles } = require("../helper/zip");
+const { zipAllFiles, zipAndSaveFile } = require("../helper/zip");
 const transcriptController = require("../controllers").transcriptController;
 const cloController = require("../controllers").cloController;
 const graphsController = require("../controllers").graphsController;
@@ -157,16 +157,24 @@ router.get("/students/:batch", async (req, res, next) => {
 router.get("/zip", async (req, res, next) => {
   try {
     console.log("route hit!");
-    let result = await zipAllFiles();
+    await zipAndSaveFile();
+    const filename = require("path").join(
+      __dirname,
+      "..",
+      "zipFiles",
+      "output.zip"
+    );
+    res.sendFile(filename);
+    // let result = await zipAllFiles();
     // res.send(JSON.stringify("Download started!"));
-    const fileName = "pdfs.zip";
-    const fileType = "application/zip";
-    res.writeHead(200, {
-      "Content-Disposition": `attachment; filename="${fileName}"`,
-      "Content-Type": fileType,
-    });
-    // res.send(result);
-    res.end(result);
+    // const fileName = "pdfs.zip";
+    // const fileType = "application/zip";
+    // res.writeHead(200, {
+    //   "Content-Disposition": `attachment; filename="${fileName}"`,
+    //   "Content-Type": fileType,
+    // });
+    // // res.send(result);
+    // res.end(result);
   } catch (error) {
     console.log("Archive of bulk files failed!");
     res.status(404).send(JSON.stringify(error.toString()));
