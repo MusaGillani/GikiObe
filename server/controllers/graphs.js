@@ -65,18 +65,18 @@ exports.ploPerformance = async (req, res, next) => {
 
     const avgSize = allPlos.length;
 
-    commulative.PLO1 = commulative.PLO1 / avgSize;
-    commulative.PLO2 = commulative.PLO2 / avgSize;
-    commulative.PLO3 = commulative.PLO3 / avgSize;
-    commulative.PLO4 = commulative.PLO4 / avgSize;
-    commulative.PLO5 = commulative.PLO5 / avgSize;
-    commulative.PLO6 = commulative.PLO6 / avgSize;
-    commulative.PLO7 = commulative.PLO7 / avgSize;
-    commulative.PLO8 = commulative.PLO8 / avgSize;
-    commulative.PLO9 = commulative.PLO9 / avgSize;
-    commulative.PLO10 = commulative.PLO10 / avgSize;
-    commulative.PLO11 = commulative.PLO11 / avgSize;
-    commulative.PLO12 = commulative.PLO12 / avgSize;
+    commulative.PLO1 = ((commulative.PLO1 / avgSize) * 100).toFixed(2);
+    commulative.PLO2 = ((commulative.PLO2 / avgSize) * 100).toFixed(2);
+    commulative.PLO3 = ((commulative.PLO3 / avgSize) * 100).toFixed(2);
+    commulative.PLO4 = ((commulative.PLO4 / avgSize) * 100).toFixed(2);
+    commulative.PLO5 = ((commulative.PLO5 / avgSize) * 100).toFixed(2);
+    commulative.PLO6 = ((commulative.PLO6 / avgSize) * 100).toFixed(2);
+    commulative.PLO7 = ((commulative.PLO7 / avgSize) * 100).toFixed(2);
+    commulative.PLO8 = ((commulative.PLO8 / avgSize) * 100).toFixed(2);
+    commulative.PLO9 = ((commulative.PLO9 / avgSize) * 100).toFixed(2);
+    commulative.PLO10 = ((commulative.PLO10 / avgSize) * 100).toFixed(2);
+    commulative.PLO11 = ((commulative.PLO11 / avgSize) * 100).toFixed(2);
+    commulative.PLO12 = ((commulative.PLO12 / avgSize) * 100).toFixed(2);
 
     res.send(JSON.stringify(commulative));
   } catch (e) {
