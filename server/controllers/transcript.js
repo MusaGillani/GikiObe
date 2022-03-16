@@ -1,6 +1,8 @@
 const prisma = require("../db/db");
 const { generatePdf } = require("../helper/generate-transcript");
 const fetchTranscript = require("../helper/fetchTranscript");
+const { zipAllFiles, zipAndSaveFile } = require("../helper/zip");
+
 exports.getTranscript = async (req, res, next) => {
   try {
     let reg = parseInt(req.params.reg);
@@ -29,12 +31,13 @@ exports.singlePdf = async (req, res, next) => {
 
 exports.bulkTranscripts = async (req, res, next) => {
   try {
+    const batch = parseInt(req.params.batch);
     let result = await prisma.student.findMany({
       select: {
         RegNo: true,
       },
       where: {
-        Batch: parseInt(req.params.batch),
+        Batch: batch,
       },
     });
 
@@ -49,7 +52,16 @@ exports.bulkTranscripts = async (req, res, next) => {
       // call a function that will zip those pdfs
     }
 
-    res.send(JSON.stringify("generated pdfs!"));
+    console.log("zipping...");
+    const zipName = `${req.params.batch}.zip`;
+    const filename = require("path").join(__dirname, "..", "zipFiles", zipName);
+    await zipAndSaveFile(zipName);
+    // res.writeHead(200, );
+    res.setHeader("Content-Disposition", `attachment; filename=${zipName}`);
+    res.setHeader("Content-Type", "application/zip");
+    res.sendFile(filename);
+
+    // res.send(JSON.stringify("generated pdfs!"));
   } catch (e) {
     console.log(e);
     res.status(404).send(JSON.stringify({ message: e.toString() }));
