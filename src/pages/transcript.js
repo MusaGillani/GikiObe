@@ -3,9 +3,39 @@ import { useEffect, useState } from "react";
 import logo from "./logo.jpg";
 import { useParams } from "react-router-dom";
 import "./transcript.css";
+import Button from "@mui/material/Button";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles({
+  btn: {
+    fontSize: 60,
+    backgroundColor: "blue",
+    "&:hover": {
+      backgroundColor: "blue",
+    },
+  },
+  field: {
+    paddingTop: 40,
+    paddingBottom: 20,
+    display: "block",
+    width: 300,
+    color: "blue",
+  },
+  appbar: {
+    paddingBottom: 20,
+  },
+  abc: {
+    marginTop: 250,
+    paddingBottom: 75,
+  },
+  box: {
+    marginBottom: 100,
+  },
+});
 
 export const Transcript = React.forwardRef((props, ref) => {
   const [details, setDetails] = useState({});
+  const classes = useStyles();
   const { regNo, name } = useParams();
   const [regNum, setRegNum] = useState(regNo);
   const [studentName, setStudentName] = useState("");
@@ -57,6 +87,33 @@ export const Transcript = React.forwardRef((props, ref) => {
       count[key]["semester"] = num.toFixed(2);
     }
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch(`http://127.0.0.1:8000/testing/single/${regNo}`, {
+      responseType: "binary",
+    })
+      .then(async function (response) {
+        console.log("response: ", response);
+        console.log("response.type: ", response.type);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(
+          // new Blob([res.data], { type: "application/zip" })
+          blob
+        );
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${regNo}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+        // saveAs(blob, 'hello world.txt')
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    // console.log(res);
+  };
 
   function commulativePLO() {
     for (var key in commulative) {
@@ -497,6 +554,15 @@ export const Transcript = React.forwardRef((props, ref) => {
           );
         })}
       </div>
+      <Button
+        type="submit"
+        variant="contained"
+        className={classes.btn}
+        onClick={handleSubmit}
+        style={{ color: "#303F9F", background: "#C5CAE9" }}
+      >
+        Download
+      </Button>
     </div>
   );
 });
