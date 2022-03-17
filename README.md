@@ -2,27 +2,27 @@
 
 ## Usage
 
-**run:** `$npm install` in backend directory to install dependencies
+#### Setup (incase of fresh pull/clone)
 
-create a **db** in mysql and use the name below
+**run :**
+$ npm install
+in root directory to install dependencies
 
-create a **.env** file and add below code (for mysql)
+- create a .env file and add below code (for mysql)
+- sample.env file has the format for .env file
+- replace USERNAME, PASSWORD, HOST, PORT, DATABASE-NAME
 
-e.g
+### Run below commands for each pull/fetch
 
-    DATABASE_URL=mysql://USER:PASSWORD@HOST:PORT/DATABASE
-    HOST=localhost
-    USER=root
-    PASSWORD=password
-    PORT=3306
-    DATABASE=obe_development
+**run :**
+in server dir
+$ npx prisma db push
+$ npx prisma generate
 
-**run:** in server dir
+**run :**
+in root dir
+$ node start
 
-`$npx prisma db push`
-
-`$npx prisma generate`
-
-To start the server in development in backend dir
-
-`$npm run dev`
+to start the server in development
+in root dir
+$ npm run dev
