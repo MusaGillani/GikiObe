@@ -20,6 +20,8 @@ import AlignVerticalCenterOutlinedIcon from "@mui/icons-material/AlignVerticalCe
 import Assessments from "./pages/InstructorPortal/Assessments";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import ChartsGrid from "./pages/InstructorPortal/MainDash/ChartsGrid";
+import Login from "./pages/Login";
+import CourseInfo from "./pages/DeanPortal/CourseInfo";
 
 const theme = createTheme({
   palette: {
@@ -27,7 +29,7 @@ const theme = createTheme({
     secondary: { main: "#3F51B5", contrastText: "#C5CAE9" },
   },
   typography: {
-    // fontFamily: "Quicksand",
+    // fontFamily: "Hubballi",
     fontWeightLight: 400,
     fontWeightRegular: 500,
     fontWeightMedium: 600,
@@ -55,7 +57,7 @@ const deanMenuItems = [
   {
     text: "Courses",
     icon: <SubjectOutlined style={{ color: "#C5CAE9" }} />,
-    path: "/",
+    path: "/courses",
   },
   {
     text: "Add Course",
@@ -139,10 +141,13 @@ function App() {
 
           <Route
             path={[
-              "/",
+              "/courses",
               "/generate-transcript",
               "/transcript-download/:regNo",
               "/populate",
+              "/generate-transcript-batch",
+              "/allot-course",
+              "/addCourses",
             ]}
           >
             <Layout deanMenuItems={deanMenuItems} login="Dean Portal">
@@ -170,6 +175,12 @@ function App() {
                 </Route>
               </Switch>
             </Layout>
+          </Route>
+          <Route exact path="/courseInfo">
+            <CourseInfo />
+          </Route>
+          <Route exact path="/">
+            <Login />
           </Route>
         </Switch>
       </Router>
