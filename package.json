@@ -5,7 +5,8 @@
   "main": "bin/www",
   "scripts": {
     "start": "node bin/www",
-    "dev": "nodemon bin/www"
+    "dev": "nodemon bin/www",
+    "start:staging": "cd server && npx prisma generate && cd .. && npm start"
   },
   "author": "Musa Gillani",
   "license": "ISC",
