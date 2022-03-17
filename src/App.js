@@ -22,6 +22,7 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
 import ChartsGrid from "./pages/InstructorPortal/MainDash/ChartsGrid";
 import Login from "./pages/Login";
 import CourseInfo from "./pages/DeanPortal/CourseInfo";
+import ChartsGridDean from "./pages/DeanPortal/DeanDash/ChartsGridDean";
 
 const theme = createTheme({
   palette: {
@@ -54,6 +55,11 @@ const theme = createTheme({
 });
 
 const deanMenuItems = [
+  {
+    text: "Analysis",
+    icon: <AnalyticsIcon style={{ color: "#C5CAE9" }} />,
+    path: "/analysisDean",
+  },
   {
     text: "Courses",
     icon: <SubjectOutlined style={{ color: "#C5CAE9" }} />,
@@ -141,6 +147,7 @@ function App() {
 
           <Route
             path={[
+              "/analysisDean",
               "/courses",
               "/generate-transcript",
               "/transcript-download/:regNo",
@@ -152,6 +159,9 @@ function App() {
           >
             <Layout deanMenuItems={deanMenuItems} login="Dean Portal">
               <Switch>
+                <Route exact path="/analysisDean">
+                  <ChartsGridDean />
+                </Route>
                 <Route exact path="/courses">
                   <DeanPortal />
                 </Route>
