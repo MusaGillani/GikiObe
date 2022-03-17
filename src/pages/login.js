@@ -14,6 +14,7 @@ import {
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Image } from "@material-ui/icons";
 import { ClassNames } from "@emotion/react";
+import "./Login.css";
 
 const useStyles = makeStyles({
   title: {
@@ -29,9 +30,9 @@ const useStyles = makeStyles({
 const Login = () => {
   const paperStyle = {
     padding: 40,
-    height: "70%",
+    height: "100%",
     width: "30%",
-    margin: "15vh auto",
+    margin: "8vh auto",
   };
 
   const avatarStyle = { backgroundColor: "#1bbd7e" };
@@ -59,11 +60,9 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login-page">
       <div className={classes.header}>
-        <Typography className={classes.title}>
-          Outcome Based Evaluation System
-        </Typography>
+        <h1>Outcome-Based Education Evaluation System</h1>
       </div>
 
       <form onSubmit={handleSubmit}>
