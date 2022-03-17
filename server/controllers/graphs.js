@@ -46,19 +46,18 @@ exports.ploPerformance = async (req, res, next) => {
     };
 
     for (const obj of allPlos) {
-      commulative.PLO1 += parseInt(obj.PLO1.semester);
-      commulative.PLO2 += parseInt(obj.PLO2.semester);
-      commulative.PLO3 += parseInt(obj.PLO3.semester);
-      commulative.PLO4 += parseInt(obj.PLO4.semester);
-      commulative.PLO5 += parseInt(obj.PLO5.semester);
-      commulative.PLO6 += parseInt(obj.PLO6.semester);
-      commulative.PLO7 += parseInt(obj.PLO7.semester);
-      commulative.PLO8 += parseInt(obj.PLO8.semester);
-      commulative.PLO9 += parseInt(obj.PLO9.semester);
-      commulative.PLO10 += parseInt(obj.PLO10.semester);
-      commulative.PLO11 += parseInt(obj.PLO11.semester);
-      commulative.PLO12 += parseInt(obj.PLO12.semester);
-      //   console.log(commulative);
+      if (obj.PLO1) commulative.PLO1 += parseInt(obj.PLO1.semester);
+      if (obj.PLO2) commulative.PLO2 += parseInt(obj.PLO2.semester);
+      if (obj.PLO3) commulative.PLO3 += parseInt(obj.PLO3.semester);
+      if (obj.PLO4) commulative.PLO4 += parseInt(obj.PLO4.semester);
+      if (obj.PLO5) commulative.PLO5 += parseInt(obj.PLO5.semester);
+      if (obj.PLO5) commulative.PLO6 += parseInt(obj.PLO6.semester);
+      if (obj.PLO7) commulative.PLO7 += parseInt(obj.PLO7.semester);
+      if (obj.PLO8) commulative.PLO8 += parseInt(obj.PLO8.semester);
+      if (obj.PLO9) commulative.PLO9 += parseInt(obj.PLO9.semester);
+      if (obj.PLO10) commulative.PLO10 += parseInt(obj.PLO10.semester);
+      if (obj.PLO11) commulative.PLO11 += parseInt(obj.PLO11.semester);
+      if (obj.PLO12) commulative.PLO12 += parseInt(obj.PLO12.semester);
     }
 
     // console.log("total: ", commulative);
