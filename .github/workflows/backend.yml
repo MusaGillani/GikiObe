@@ -21,9 +21,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Start the backend
-        run: |
-          pm2 stop backend
-          pm2 start backend
+        run: pm2 stop backend && pm2 start backend
 
   # deploy:
   #   runs-on: ubuntu-latest
