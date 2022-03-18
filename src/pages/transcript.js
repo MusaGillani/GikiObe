@@ -90,7 +90,7 @@ export const Transcript = React.forwardRef((props, ref) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://127.0.0.1:8000/testing/single/${regNo}`, {
+    fetch(`${process.env.backend_url}/single/${regNo}`, {
       responseType: "binary",
     })
       .then(async function (response) {
@@ -129,7 +129,7 @@ export const Transcript = React.forwardRef((props, ref) => {
     setRegNum(props.reg);
   }
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/testing/transcript/${regNum}`)
+    fetch(`${process.env.backend_url}/transcript/${regNum}`)
       .then((res) => res.json())
       .then((data) => {
         setFaculty(data["faculty"]);

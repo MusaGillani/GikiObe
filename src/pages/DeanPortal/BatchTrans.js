@@ -40,7 +40,7 @@ const useStyles = makeStyles({
 
 export default function BatchTrans() {
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/testing/batches")
+    fetch(`${process.env.backend_url}/batches`)
       .then((res) => res.json())
       .then((data) => {
         setBatches(data);
@@ -57,7 +57,7 @@ export default function BatchTrans() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://127.0.0.1:8000/testing/bulk/${sBatch}`, {
+    fetch(`${process.env.backend_url}/bulk/${sBatch}`, {
       responseType: "binary",
     })
       .then(async function (response) {

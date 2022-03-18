@@ -61,7 +61,7 @@ export default function GenerateModified() {
   const history = useHistory();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/testing/batches")
+    fetch(`${process.env.backend_url}/batches`)
       .then((res) => res.json())
       .then((data) => {
         setBatches(data);
@@ -69,7 +69,7 @@ export default function GenerateModified() {
   }, []);
   const handleChange = (event) => {
     setSBatch(event);
-    fetch(`http://127.0.0.1:8000/testing/students/${event}`)
+    fetch(`${process.env.backend_url}/students/${event}`)
       .then((res) => res.json())
       .then((data) => {
         setRegNumbers(data);

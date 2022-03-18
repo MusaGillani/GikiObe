@@ -9,17 +9,17 @@ export default function ChartsGridDean() {
   const [batch30, setBatch30] = useState({});
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/testing/plo-performance/28")
+    fetch(`${process.env.backend_url}/plo-performance/28`)
       .then((res) => res.json())
       .then((data) => {
         setBatch28(data);
       });
-    fetch("http://127.0.0.1:8000/testing/plo-performance/29")
+    fetch(`${process.env.backend_url}/plo-performance/29`)
       .then((res) => res.json())
       .then((data) => {
         setBatch29(data);
       });
-    fetch("http://127.0.0.1:8000/testing/plo-performance/30")
+    fetch(`${process.env.backend_url}/plo-performance/30`)
       .then((res) => res.json())
       .then((data) => {
         setBatch30(data);
