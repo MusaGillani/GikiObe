@@ -1,8 +1,8 @@
 .env
-server/csvs/**
+server/csvs/*.csv
 node_modules
 server/html/*.html
-server/pdfs/**
+server/pdfs/*.pdf
 server/node_modules
-server/zipFiles/**
+server/zipFiles/*.zip
 .vscode
