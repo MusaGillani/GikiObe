@@ -41,6 +41,8 @@ export const Transcript = React.forwardRef((props, ref) => {
   const [studentName, setStudentName] = useState("");
   const [faculty, setFaculty] = useState("");
   const [batch, setBatch] = useState("");
+
+  const [last, setLast] = useState();
   //const [flag, setFlag] = useState(1);
 
   const commulative = {};
@@ -87,15 +89,14 @@ export const Transcript = React.forwardRef((props, ref) => {
       count[key]["semester"] = num.toFixed(2);
     }
   }
-
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(`http://127.0.0.1:8000/testing/single/${regNo}`, {
       responseType: "binary",
     })
       .then(async function (response) {
-        console.log("response: ", response);
-        console.log("response.type: ", response.type);
+        // console.log("response: ", response);
+        // console.log("response.type: ", response.type);
         const blob = await response.blob();
         const url = window.URL.createObjectURL(
           // new Blob([res.data], { type: "application/zip" })
@@ -146,6 +147,7 @@ export const Transcript = React.forwardRef((props, ref) => {
             return obj;
           }, {});
         setDetails(ordered);
+        setLast(Object.keys(ordered)[Object.keys(ordered).length - 1]);
       });
   }, [regNo]);
   return (
@@ -198,6 +200,8 @@ export const Transcript = React.forwardRef((props, ref) => {
           </p>
         </div>
       </div>
+      {console.log("Details", details)}
+      {console.log("Details Last element", last)}
       <div>
         {Object.keys(details).map((row_r) => {
           const ordered = Object.keys(details[row_r])
@@ -264,7 +268,7 @@ export const Transcript = React.forwardRef((props, ref) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {console.log(courseWise)}
+                        {/* {console.log(courseWise)} */}
                         {details[row_r][year].map((row) => (
                           <tr>
                             <td scope="row">{row.CourseCode}</td>
@@ -548,8 +552,91 @@ export const Transcript = React.forwardRef((props, ref) => {
                       </tbody>
                     </table>
                   </div>
+                  <div>
+                    <table class="table table-bordered">
+                      {row_r == last && year == 3 && (
+                        <tbody>
+                          <tr>
+                            <td scope="row" class="table-light rowhead w-30">
+                              KPI
+                            </td>
+
+                            <td>{`≥ 0.6`}</td>
+                            <td>{`≥ 0.6`}</td>
+                            <td>{`≥ 0.6`}</td>
+                            <td>{`≥ 0.6`}</td>
+                            <td>{`≥ 0.6`}</td>
+                            <td>{`≥ 0.6`}</td>
+                            <td>{`> 0`}</td>
+                            <td>{`> 0`}</td>
+                            <td>{`> 0`}</td>
+                            <td>{`> 0`}</td>
+                            <td>{`> 0`}</td>
+                            <td>{`> 0`}</td>
+                          </tr>
+                          <tr>
+                            <td scope="row" class="table-light rowhead w-10">
+                              Overall Attainment
+                            </td>
+                            <td>
+                              {commulative.PLO1["semester"] >= 0.6 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO2["semester"] >= 0.6 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO3["semester"] >= 0.6 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO4["semester"] >= 0.6 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO5["semester"] >= 0.6 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO6["semester"] >= 0.6 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO7["semester"] > 0 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO8["semester"] > 0 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO9["semester"] > 0 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO10["semester"] > 0 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO11["semester"] > 0 ? "P" : "F"}
+                            </td>
+                            <td>
+                              {" "}
+                              {commulative.PLO12["semester"] > 0 ? "P" : "F"}
+                            </td>
+                          </tr>
+                        </tbody>
+                      )}
+                    </table>
+                  </div>
                 </div>
               ))}
+              <div>
+                Note: This is an electronic document and does not require
+                signature. Errors are accepted.
+              </div>
+              <div>Legend: P = Pass ; F = Fail</div>
             </div>
           );
         })}
