@@ -1,0 +1,46 @@
+/* .giki-logo{
+    height: 150px;
+    width: 150px;
+    margin-top: 10px;
+    margin-left: -100px;
+}
+
+.uni-name{
+    margin-top: 20px;
+    margin-right: 220px;
+} */
+
+/* .header {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  /* justify-content: center;
+} */
+
+.header > div {
+  text-align: center;
+}
+
+.giki-logo {
+  max-width: 65%;
+  max-height: 65%;
+  min-width: 50%;
+  min-height: 50%;
+}
+
+.student-data {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  /* margin-left: 35px;
+  margin-right: 35px;
+  margin-top: 20px; */
+}
+
+/* .title {
+  margin-top: 30px;
+} */
+
+.rowhead {
+  text-align: center;
+  /* border: 1px solid black; */
+}

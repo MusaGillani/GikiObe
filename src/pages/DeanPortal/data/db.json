@@ -1,0 +1,52 @@
+{
+  "courses": [
+    {
+      "title": "Introduction to Programming",
+      "code": "CS101",
+      "CLO1": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO2": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO3": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO4": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO5": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO6": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "PLO1": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "PLO2": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    },
+    {
+      "title": "Introduction to Programming",
+      "code": "CS102",
+      "CLO1": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO2": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO3": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO4": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO5": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO6": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "PLO1": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "PLO2": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    },
+    {
+      "title": "Introduction to Programming",
+      "code": "CS103",
+      "CLO1": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO2": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO3": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO4": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO5": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO6": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "PLO1": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "PLO2": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    },
+    {
+      "title": "Introduction to Programming",
+      "code": "CS104",
+      "CLO1": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO2": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO3": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO4": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO5": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "CLO6": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "PLO1": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+      "PLO2": "Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+    }
+  ]
+}

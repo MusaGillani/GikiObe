@@ -1,0 +1,15 @@
+.forms {
+  margin-top: 220px;
+  align-items: center;
+}
+
+.upload {
+  align-items: center;
+  margin-right: -85px;
+  margin-bottom: 10px;
+}
+
+#upload {
+  margin-right: 2px;
+  margin-left: 2px;
+}
