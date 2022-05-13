@@ -1,0 +1,8 @@
+.env
+server/csvs/*.csv
+node_modules
+server/html/*.html
+server/pdfs/*.pdf
+server/node_modules
+server/zipFiles/*.zip
+.vscode
