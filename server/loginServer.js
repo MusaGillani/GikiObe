@@ -2,7 +2,9 @@ const prisma = require("./db/db");
 const express = require("express");
 const app = express();
 require("dotenv").config();
+var cors = require('cors')
 
+app.use(cors()) 
 const jwt = require("jsonwebtoken");
 
 app.use(express.json());
@@ -30,8 +32,12 @@ app.use(express.json());
 
 app.post("/login", async (req, res) => {
   try {
+    // const req = JSON.parse(req);
+    // console.log(request);
+    console.log(req.body);
     const username = req.body.username;
     const password = req.body.password;
+    console.log("username: ", username, "  password: ", password);
     if (!username || !password) {
       res.status(400);
       throw new Error("You must provide an email and a password.");
@@ -61,7 +67,7 @@ app.post("/login", async (req, res) => {
     const user = { name: username };
     const accessToken = jwt.sign(user, process.env.ACESS_TOKEN_SECRET);
 
-    res.json({ accessToken: accessToken });
+    res.json({ accessToken: accessToken, userType: userJson.userType });
   } catch (err) {
     console.log(err);
   }
