@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import "./AddCourse.css";
 
-const PLOs = ["PLO1", "PLO2", "PLO3"];
+const PLOs = ["1", "2", "3"];
 
 function AddCourse(props) {
   const [plo, setPlo] = useState();
@@ -38,6 +38,45 @@ function AddCourse(props) {
     setCloField([...cloFields, { label: label, placeholder: placeholder }]);
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    var courseTitle = e.target[0].value;
+    var courseCode = e.target[1].value;
+    var CLOs = [];
+    var Threshold = [];
+    var PLOs = [];
+
+    // console.log(cloFields.length);
+    // console.log(e.target[4].value);
+
+    var iterations = cloFields.length * 3 + 2;
+    for (let i = 2; i < iterations; i = i + 3) {
+      CLOs.push(e.target[i].value);
+      Threshold.push(e.target[i + 1].value);
+      PLOs.push(e.target[i + 2].value);
+    }
+
+    console.log({
+      courseTitle: courseTitle,
+      courseCode: courseCode,
+      CLOs: CLOs,
+      threshold: Threshold,
+      PLOs: PLOs,
+    });
+
+    fetch("http://127.0.0.1:8000/testing/add-course", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        courseTitle: courseTitle,
+        courseCode: courseCode,
+        CLOs: CLOs,
+        threshold: Threshold,
+        PLOs: PLOs,
+      }),
+    }).then((res) => console.log(res));
+  }
+
   return (
     <div className="popup">
       <Typography
@@ -49,7 +88,7 @@ function AddCourse(props) {
       >
         Add Course
       </Typography>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Box sx={{ minWidth: 120 }}>
           <Grid container spacing={1}>
             <Grid xs={12} sm={12} item>
@@ -79,6 +118,15 @@ function AddCourse(props) {
                 <div>
                   <TextField
                     label={clof.label}
+                    placeholder={clof.placeholder}
+                    id="standard-basic"
+                    halfWidth
+                    required
+                  ></TextField>
+                </div>
+                <div>
+                  <TextField
+                    label="Threshold"
                     placeholder={clof.placeholder}
                     id="standard-basic"
                     halfWidth
@@ -136,7 +184,7 @@ function AddCourse(props) {
             type="submit"
             variant="contained"
             style={{ color: "#303F9F", background: "#C5CAE9" }}
-            //   onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
           >
             Submit
           </Button>

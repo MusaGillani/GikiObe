@@ -61,21 +61,14 @@ const Steachers = [
   "Ali Shaukat",
 ];
 
-const Scourses = [
-  "Signals and System",
-  "Applied Artifical Intelligence",
-  "Introduction to Programming",
-  "Logic Design",
-  "Full Stack Development",
-  "Database Management System",
-];
-
 export default function GenerateModified() {
   const classes = useStyles();
-  const [teachers, setTeachers] = useState(Steachers);
+  const [teachers, setTeachers] = useState([]);
   const [teacher, setTeacher] = useState("");
-  const [courses, setCourses] = useState(Scourses);
+  const [courses, setCourses] = useState([]);
   const [course, setCourse] = useState("");
+
+  const [allotedCourses, setAllotedCourses] = useState([]);
   const history = useHistory();
 
   const [open, setOpen] = React.useState(false);
@@ -90,20 +83,51 @@ export default function GenerateModified() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(course, " ", teacher);
+    const TimOut = setTimeout(() => {
+      console.log("loading");
+    }, 4000);
+    fetch(`http://127.0.0.1:8000/testing/alloted-course/${teacher}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(e.target[0].value);
+        var a = e.target[0].value.split(" ");
+        data.push(a[a.length - 1]);
+        setAllotedCourses(data);
+        console.log(data);
+      })
+      .catch((e) => console.log(e));
+    setTeacher(e.target[1].value);
     setOpen(true);
   };
-
-  //   const handleClickOpen = (scrollType) => () => {
-  //     setOpen(true);
-  //     setScroll(scrollType);
-  //   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleDelete = () => {
+  const handleConfirm = () => {
+    console.log(
+      JSON.stringify({
+        inst: teacher,
+        password: allotedCourses,
+      })
+    );
+
+    fetch("http://127.0.0.1:8000/testing/allot-course", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        inst: teacher,
+        courseCode: allotedCourses,
+      }),
+    }).then((res) => console.log(res));
+
+    setOpen(false);
+  };
+
+  const handleDelete = (name) => {
+    const newValue = allotedCourses.filter((i) => i !== name);
+    setAllotedCourses(newValue);
+    console.log(newValue);
     console.info("You clicked the delete icon.");
   };
 
@@ -115,6 +139,20 @@ export default function GenerateModified() {
         descriptionElement.focus();
       }
     }
+
+    fetch(`http://127.0.0.1:8000/testing/courses/5`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCourses(data);
+        // console.log(data);
+      });
+
+    fetch(`http://127.0.0.1:8000/testing/instructors`)
+      .then((res) => res.json())
+      .then((data) => {
+        setTeachers(data);
+        // console.log(data);
+      });
   }, [open]);
 
   return (
@@ -172,40 +210,48 @@ export default function GenerateModified() {
           </Button>
         </form>
       </Container>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        scroll={"paper"}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
-      >
-        <DialogTitle id="scroll-dialog-title">{teacher}</DialogTitle>
-        <DialogContent>
-          <DialogContentText
-            id="scroll-dialog-description"
-            ref={descriptionElementRef}
-            tabIndex={-1}
-          >
-            <Typography variant="h6" color="primary" className={classes.name}>
-              Currently Alloted Courses
-            </Typography>
-            <Stack direction="row" spacing={1}>
-              <Chip label="CS101" onDelete={handleDelete} variant="outlined" />
-              <Chip label="CS102" variant="outlined" onDelete={handleDelete} />
-              <Chip label="CS103" variant="outlined" onDelete={handleDelete} />
-              <Chip label="CS104" variant="outlined" onDelete={handleDelete} />
-            </Stack>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={handleClose}
-            style={{ color: "#303F9F", background: "#C5CAE9", height: 20 }}
-          >
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
+      {/* {console.log(allotedCourses)} */}
+      {allotedCourses && (
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          scroll={"paper"}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
+        >
+          <DialogTitle id="scroll-dialog-title">{teacher}</DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              id="scroll-dialog-description"
+              ref={descriptionElementRef}
+              tabIndex={-1}
+            >
+              <Typography variant="h6" color="primary" className={classes.name}>
+                Currently Alloted Courses
+              </Typography>
+              {allotedCourses && (
+                <Stack direction="row" spacing={1}>
+                  {allotedCourses.map((name) => (
+                    <Chip
+                      label={name}
+                      onDelete={() => handleDelete(name)}
+                      variant="outlined"
+                    />
+                  ))}
+                </Stack>
+              )}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={handleConfirm}
+              style={{ color: "#303F9F", background: "#C5CAE9", height: 20 }}
+            >
+              Confirm
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </div>
   );
 }

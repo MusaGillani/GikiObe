@@ -12,6 +12,7 @@ import { Container } from "@mui/material";
 import { makeStyles } from "@material-ui/styles"; // a function
 import { Typography } from "@material-ui/core";
 import AssCard from "./AssCard";
+import FinalMidCard from "./FinalMidCard";
 
 const Scourses = [
   "Signals and System",
@@ -120,6 +121,9 @@ export default function Assessments() {
       </div>
       {category == "Quiz" && <AssCard type={category} />}
       {category == "Assignment" && <AssCard type={category} />}
+      {category == "Mid-Exam" && <FinalMidCard type={category} />}
+      {category == "Final-Exam" && <FinalMidCard type={category} />}
+      {category == "Project" && <FinalMidCard type={category} />}
     </div>
   );
 }

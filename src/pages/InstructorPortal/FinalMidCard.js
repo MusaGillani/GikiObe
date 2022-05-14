@@ -30,7 +30,7 @@ const useStyles = makeStyles({
     height: 30,
   },
   btn: {
-    marginTop: 50,
+    marginTop: 40,
     paddingBottom: 50,
   },
   upload: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles({
 const Scourses = ["CLO1", "CLO2", "CLO3", "CLO4"];
 const regNumbers = ["2018146", "2018460", "2018468"];
 
-export default function AssCard(props) {
+export default function FinalMidCard(props) {
   const [courses, setCourses] = useState(Scourses);
   const [course, setCourse] = useState("");
   const [reg, setReg] = useState();
@@ -53,11 +53,11 @@ export default function AssCard(props) {
   const [marks, setMarks] = useState([
     {
       label: "Marks",
-      placeholder: "Enter Marks of Student 1",
+      placeholder: "Enter Total Marks of Question 1",
     },
     {
       label: "Marks",
-      placeholder: "Enter Marks of Student 2",
+      placeholder: "Enter Total Marks of Question 2",
     },
   ]);
   const createTextField = () => {
@@ -96,43 +96,6 @@ export default function AssCard(props) {
         <Box sx={{ minWidth: 120 }}>
           <Grid container spacing={1}>
             <Grid xs={12} sm={12} item>
-              <FormControl className={classes.fieldSelect}>
-                <InputLabel id="demo-simple-select-label">
-                  Select CLO
-                </InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={course}
-                  label="Select CLO"
-                  onChange={(e) => handleChange(e.target.value)}
-                >
-                  {courses.map((name) => (
-                    <MenuItem value={name}>{name}</MenuItem>
-                  ))}
-                </Select>
-                {/* {console.log(sBatch)} */}
-              </FormControl>
-            </Grid>
-            <Grid xs={12} sm={12} item>
-              <TextField
-                label="SR. Number"
-                placeholder="Enter sr. number"
-                id="standard-basic"
-                required
-              >
-                {props.type} number
-              </TextField>
-            </Grid>
-            <Grid xs={12} sm={12} item>
-              <TextField
-                label="Threshold"
-                placeholder="Enter course code"
-                id="standard-basic"
-                required
-              ></TextField>
-            </Grid>
-            <Grid xs={12} sm={12} item>
               <TextField
                 label="Total Marks"
                 placeholder="Enter course code"
@@ -152,32 +115,36 @@ export default function AssCard(props) {
                     required
                   ></TextField>
                 </div>
+                <div>
+                  <Grid xs={12} sm={12} item>
+                    <TextField
+                      label="Threshold"
+                      placeholder="Enter course code"
+                      id="standard-basic"
+                      required
+                    ></TextField>
+                  </Grid>
+                </div>
                 <div className={classes.select}>
-                  <FormControl>
-                    <InputLabel
-                      id="demo-simple-select-label"
-                      placeholder="RegNumber"
-                      halfWidth
-                      className={classes.field}
-                    >
-                      Reg Number
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={reg}
-                      label="Reg Number"
-                      halfWidth
-                      className={classes.abc}
-
-                      //   onChange={(e) => handleChange(e.target.value)}
-                    >
-                      {regNumbers.map((name) => (
-                        <MenuItem value={name}>{name}</MenuItem>
-                      ))}
-                    </Select>
-                    {/* {console.log(sBatch)} */}
-                  </FormControl>
+                  <Grid xs={12} sm={12} item>
+                    <FormControl className={classes.fieldSelect}>
+                      <InputLabel id="demo-simple-select-label">
+                        Select CLO
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={course}
+                        label="Select CLO"
+                        onChange={(e) => handleChange(e.target.value)}
+                      >
+                        {courses.map((name) => (
+                          <MenuItem value={name}>{name}</MenuItem>
+                        ))}
+                      </Select>
+                      {/* {console.log(sBatch)} */}
+                    </FormControl>
+                  </Grid>
                 </div>
               </Grid>
             ))}
@@ -200,13 +167,6 @@ export default function AssCard(props) {
             </div>
           </Grid>
         </Box>
-        <Typography
-          gutterBottom
-          variant="h6"
-          style={{ color: "#303F9F", marginTop: 50 }}
-        >
-          OR Upload File
-        </Typography>
         <div className={classes.upload}>
           <label htmlFor="upload">Upload File Mark Sheet</label>
           <input
