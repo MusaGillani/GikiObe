@@ -5,13 +5,14 @@ const { zipAllFiles, zipAndSaveFile } = require("../helper/zip");
 const transcriptController = require("../controllers").transcriptController;
 const cloController = require("../controllers").cloController;
 const graphsController = require("../controllers").graphsController;
-const allotedCourses = require("../controllers/allotedCourses");
-const allotCourse = require("../controllers/allotCourse");
-const course = require("../controllers/getCourseSem");
+const courseController = require("../controllers").courseController;
+// const allotedCourses = require("../controllers").allotedCourses;
+// const allotCourse = require("../controllers").allotCourse;
+// const course = require("../controllers").getCourseSem;
 const getInstructors = require("../controllers/getInstructors");
-const addCourse = require("../controllers/addCourse");
-const getCourseCLOs = require("../controllers/getCourseCLOs");
-const addQuizAssessment = require("../controllers/addQuizAssessment")
+// const addCourse = require("../controllers").addCourse;
+// const getCourseCLOs = require("../controllers").getCourseCLOs;
+// const getAssesments = require("../controllers").getAssesments;
 
 router.get("/student", async (req, res, next) => {
   const users = await prisma.student.findMany();
@@ -186,22 +187,20 @@ router.get("/getCLOs", cloController.getCLO);
 
 router.get("/plo-performance/:batch", graphsController.ploPerformance);
 
-router.get("/alloted-course/:inst", allotedCourses.allotCourse);
+router.get("/alloted-course/:inst", courseController.allotedCourses);
 
-router.post("/allot-course", allotCourse.allotCourse);
+router.post("/allot-course", courseController.allotCourse);
 
-router.get("/courses/:sem", course.getCourse);
+router.get("/courses/:sem", courseController.getCourse);
 
 router.get("/instructors", getInstructors.getInstructors);
 
-router.post("/add-course", addCourse.addCourse);
+router.post("/add-course", courseController.addCourse);
 
-router.get("/getCourseClo/:course", getCourseCLOs.getCourseCLOs);
+router.get("/getCourseClo/:course", courseController.getCourseCLOs);
 
-router.get("/getCourseDetail/:sem", course.getDetailCourse);
+router.get("/getCourseDetail/:sem", courseController.getDetailCourse);
 
-router.post("/addQuizAssessment", addQuizAssessment.addQuizAssessment)
-
-router.post("/addFinalMidP", addQuizAssessment.addFinalMidP)
+router.get("/getAssessments/:reg", courseController.getAssesments);
 
 module.exports = router;

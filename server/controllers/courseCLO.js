@@ -6,13 +6,13 @@ exports.getCLO = async (req, res, next) => {
       Code: "",
       Desc: "",
       Name: "",
-      CLOs: []
+      CLOs: [],
     };
     const responseObjectArray = [];
 
     const courseCodes = await prisma.course_clos.findMany({
       select: { CourseCode: true },
-      distinct: ['CourseCode']
+      distinct: ["CourseCode"],
     });
 
     const clo = await prisma.course_clos.findMany();
@@ -29,7 +29,7 @@ exports.getCLO = async (req, res, next) => {
       const ploDesc = await prisma.plos.findFirst({
         select: {
           plo_statement: true,
-          plo_desc: true
+          plo_desc: true,
         },
         where: {
           plo_num: obj.mapped_on_plo,
@@ -39,16 +39,34 @@ exports.getCLO = async (req, res, next) => {
         dictObj["Code"] = obj.CourseCode;
         dictObj["Desc"] = obj.clo_desc;
         dictObj["Name"] = course.CourseTitle;
-        dictObj["CLOs"].push([obj.clo_num, obj.mapped_on_plo, parseFloat(obj.weightage), ploDesc.plo_statement, ploDesc.plo_desc]);
+        dictObj["CLOs"].push([
+          obj.clo_num,
+          obj.mapped_on_plo,
+          parseFloat(obj.weightage),
+          ploDesc.plo_statement,
+          ploDesc.plo_desc,
+        ]);
       } else if (obj.CourseCode === dictObj["Code"]) {
-        dictObj["CLOs"].push([obj.clo_num, obj.mapped_on_plo, parseFloat(obj.weightage), ploDesc.plo_statement, ploDesc.plo_desc]);
+        dictObj["CLOs"].push([
+          obj.clo_num,
+          obj.mapped_on_plo,
+          parseFloat(obj.weightage),
+          ploDesc.plo_statement,
+          ploDesc.plo_desc,
+        ]);
       } else {
         responseObjectArray.push({ ...dictObj });
         dictObj["Code"] = obj.CourseCode;
         dictObj["Desc"] = obj.clo_desc;
         dictObj["Name"] = course.CourseTitle;
-        dictObj["CLOs"] = []
-        dictObj["CLOs"].push([obj.clo_num, obj.mapped_on_plo, parseFloat(obj.weightage), ploDesc.plo_statement, ploDesc.plo_desc]);
+        dictObj["CLOs"] = [];
+        dictObj["CLOs"].push([
+          obj.clo_num,
+          obj.mapped_on_plo,
+          parseFloat(obj.weightage),
+          ploDesc.plo_statement,
+          ploDesc.plo_desc,
+        ]);
       }
     }
     responseObjectArray.push({ ...dictObj });
