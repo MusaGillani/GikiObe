@@ -96,8 +96,7 @@ model assessments {
   mapped_on_clo          Int?
   clo_threshold          Decimal @db.Decimal(19, 4)
   obtained_clo_threshold Decimal @db.Decimal(19, 4)
-
-  @@ignore
+  id                     Int     @id @default(autoincrement())
 }
 
 model users {
@@ -113,4 +112,10 @@ model grading_policies {
   mid_wt         Decimal @db.Decimal(19, 4)
   final_wt       Decimal @db.Decimal(19, 4)
   final_proj_wt  Decimal @db.Decimal(19, 4)
+}
+
+model faculty_deans {
+  dean_id String @id @db.VarChar(30)
+  name    String @db.VarChar(255)
+  faculty String @db.VarChar(30)
 }

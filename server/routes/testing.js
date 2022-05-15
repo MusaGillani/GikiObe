@@ -11,6 +11,7 @@ const course = require("../controllers/getCourseSem");
 const getInstructors = require("../controllers/getInstructors");
 const addCourse = require("../controllers/addCourse");
 const getCourseCLOs = require("../controllers/getCourseCLOs");
+const addQuizAssessment = require("../controllers/addQuizAssessment")
 
 router.get("/student", async (req, res, next) => {
   const users = await prisma.student.findMany();
@@ -197,8 +198,10 @@ router.post("/add-course", addCourse.addCourse);
 
 router.get("/getCourseClo/:course", getCourseCLOs.getCourseCLOs);
 
-
 router.get("/getCourseDetail/:sem", course.getDetailCourse);
 
+router.post("/addQuizAssessment", addQuizAssessment.addQuizAssessment)
+
+router.post("/addFinalMidP", addQuizAssessment.addFinalMidP)
 
 module.exports = router;
