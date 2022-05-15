@@ -260,4 +260,78 @@ exports.addCourse = async (req, res, next) => {
   }
 };
 
-exports.getAssesments = async (req, res, next) => {};
+exports.getAssesments = async (req, res, next) => {
+  try {
+    let reg = parseInt(req.params.reg);
+
+    let result = await prisma.assessments.findMany({
+      where: {
+        reg_no: reg,
+      },
+    });
+
+    // console.log(result);
+
+    /*
+    {
+        course_code: , 
+        course_title: ,
+        CLOs: [],
+        obtained_weightage: [],
+        assessments: [],
+    }
+    */
+
+    let response = [];
+
+    for (const assessment of result) {
+      let course_title = await prisma.schemeofstudy.findFirst({
+        where: {
+          CourseCode: assessment.course_code,
+        },
+        select: {
+          course_description: true,
+        },
+      });
+      assessment.course_title = course_title;
+      // quiz
+      if (
+        assessment.assessment_type.charAt(0) == "Q" ||
+        assessment.assessment_type.charAt(0) == "q"
+      ) {
+        assessment.assessment_type =
+          assessment.assessment_type + " " + assessment.serial_no;
+      }
+      // midterm
+      else {
+        assessment.assessment_type =
+          assessment.assessment_type + " question " + assessment.question_no;
+      }
+      let index = response.findIndex(
+        (obj) => obj.course_code == assessment.course_code
+      );
+      //   console.log(index);
+      if (index == -1) {
+        response.push({
+          course_code: assessment.course_code,
+          course_title: course_title,
+          CLOs: [assessment.mapped_on_clo],
+          obtained_weightage: [assessment.obtained_clo_threshold],
+          assessments: [assessment.assessment_type],
+        });
+      } else {
+        //   console.log(typeof response[index]["CLOs"]);
+        response[index].CLOs.push(assessment.mapped_on_clo);
+        response[index].obtained_weightage.push(
+          assessment.obtained_clo_threshold
+        );
+        response[index].assessments.push(assessment.assessment_type);
+      }
+    }
+
+    res.send(JSON.stringify(response));
+  } catch (e) {
+    console.log(e);
+    res.send("err");
+  }
+};
