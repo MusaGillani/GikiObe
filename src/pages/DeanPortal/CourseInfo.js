@@ -76,9 +76,17 @@ export default function CourseInfo(props) {
           <Typography variant="h5">Description</Typography>
           <Typography gutterBottom>{props.course["des"]}</Typography>
           <Typography variant="h5">Course CLOs</Typography>
-          <Typography gutterBottom>1. {props.course["CLO1"]}</Typography>
-          <Typography gutterBottom>2. {props.course["CLO2"]}</Typography>
-          <Typography gutterBottom>3. {props.course["CLO3"]}</Typography>
+          {props.course["clos"] &&
+            props.course["clos"].map((value, index) => (
+              <div>
+                <Typography
+                  gutterBottom
+                >{`1. CLO ${value}: ${props.course["clos_des"][index]}`}</Typography>
+                <Typography
+                  gutterBottom
+                >{`This CLO is mapped to: ${props.course["plos"][index]} with weightage ${props.course["weightage"][index]}`}</Typography>
+              </div>
+            ))}
         </DialogContent>
       </BootstrapDialog>
     </div>

@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { makeStyles } from "@material-ui/styles"; // a function
 import Button from "@mui/material/Button";
+import * as XLSX from "xlsx";
 
 const useStyles = makeStyles({
   container: {
@@ -40,16 +41,14 @@ const useStyles = makeStyles({
   },
 });
 
-const Scourses = ["CLO1", "CLO2", "CLO3", "CLO4"];
-const regNumbers = ["2018146", "2018460", "2018468"];
 
 export default function FinalMidCard(props) {
-  const [courses, setCourses] = useState(Scourses);
-  const [course, setCourse] = useState("");
+  const [file, setFile] = useState([]);
+  const [CLOs, setCLOs] = useState([]);
+  const [CLO, setCLO] = useState("");
   const [reg, setReg] = useState();
   const classes = useStyles();
   const [formData, setformData] = useState("");
-
   const [marks, setMarks] = useState([
     {
       label: "Marks",
@@ -60,6 +59,17 @@ export default function FinalMidCard(props) {
       placeholder: "Enter Total Marks of Question 2",
     },
   ]);
+
+  React.useEffect(() => {
+    console.log();
+    fetch(`http://127.0.0.1:8000/testing/getCourseClo/${props.course}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCLOs(data);
+        console.log(data);
+      });
+  }, []);
+
   const createTextField = () => {
     let cloNum = marks.length + 1;
     let label = "Marks";
@@ -68,17 +78,64 @@ export default function FinalMidCard(props) {
   };
 
   const handleChange = (event) => {
-    setCourse(event);
+    setCLO(event);
   };
 
   const onSelectImageHandler = (files) => {
-    const file = files;
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append(`file[${i}]`, files[i]);
+    setFile(files);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // console.log(e.target[3]);
+
+    var marks_question = [];
+    var threshold = [];
+    var CLOs = [];
+
+    var iterations = marks.length * 4;
+    console.log(iterations);
+    for (let i = 0; i < iterations; i = i + 4) {
+      marks_question.push(e.target[i].value);
+      threshold.push(e.target[i + 1].value);
+      CLOs.push(e.target[i + 2].value);
     }
-    console.log(formData);
-    setformData(formData);
+
+    var temp = {
+      total_marks: marks_question,
+      threshold: threshold,
+      CLOs: CLOs,
+      type: props.type,
+      course: props.course,
+      reg_no: [],
+      obtained_marks: {
+        question: [],
+      },
+    };
+    console.log(marks_question);
+
+    var f = file[0];
+    // console.log(f);
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var data = e.target.result;
+      let readedData = XLSX.read(data, { type: "binary" });
+      const wsname = readedData.SheetNames[0];
+      const ws = readedData.Sheets[wsname];
+
+      /* Convert array to json*/
+      const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      // console.log(dataParse);
+
+      for (let i = 1; i < dataParse.length; i++) {
+        temp.reg_no.push(dataParse[i][0]);
+        for (let j = 0; j < CLOs.length; j++)
+          temp.obtained_marks.question.push(dataParse[i][j + 1]);
+      }
+      console.log(temp);
+    };
+    reader.readAsBinaryString(f);
   };
 
   return (
@@ -92,19 +149,18 @@ export default function FinalMidCard(props) {
       >
         Marks of {props.type}
       </Typography>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Box sx={{ minWidth: 120 }}>
           <Grid container spacing={1}>
-            <Grid xs={12} sm={12} item>
-              <TextField
-                label="Total Marks"
-                placeholder="Enter course code"
-                id="standard-basic"
-                required
-              ></TextField>
-            </Grid>
-
-            {marks.map((mark, reg) => (
+            <Typography
+              gutterBottom
+              variant="h6"
+              className="title"
+              style={{ color: "#303F9F", marginTop: 30 }}
+            >
+              Question Wise CLO Mapping
+            </Typography>
+            {marks.map((mark) => (
               <Grid xs={12} sm={12} item className="abc">
                 <div>
                   <TextField
@@ -134,15 +190,14 @@ export default function FinalMidCard(props) {
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={course}
+                        // value={CLO}
                         label="Select CLO"
-                        onChange={(e) => handleChange(e.target.value)}
+                        // onChange={(e) => handleChange(e.target.value)}
                       >
-                        {courses.map((name) => (
+                        {CLOs.map((name) => (
                           <MenuItem value={name}>{name}</MenuItem>
                         ))}
                       </Select>
-                      {/* {console.log(sBatch)} */}
                     </FormControl>
                   </Grid>
                 </div>
@@ -182,7 +237,7 @@ export default function FinalMidCard(props) {
             type="submit"
             variant="contained"
             style={{ color: "#303F9F", background: "#C5CAE9" }}
-            //   onSubmit={handleSubmit}
+            onSubmit={handleSubmit}
           >
             Save
           </Button>

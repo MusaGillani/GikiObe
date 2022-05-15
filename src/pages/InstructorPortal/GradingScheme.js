@@ -12,8 +12,6 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useState } from "react";
 
-const courses = ["Full Stack Development", "Database Management System"];
-
 const useStyles = makeStyles({
   label: {
     color: "#303F9F",
@@ -52,8 +50,24 @@ function GradingScheme(props) {
   const handleChange = (event) => {
     setCourse(event);
   };
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(e);
+  }
+
   const [course, setCourse] = useState("");
   const classes = useStyles();
+  const [courses, setCourses] = useState([]);
+  React.useEffect(() => {
+    fetch(`http://127.0.0.1:8000/testing/alloted-course/Mohsin Zafar`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCourses(data);
+        // console.log(data);
+      });
+  }, []);
+
   return (
     <div className="policy-form">
       <h2 style={{ color: "#303F9F" }}>Grading Policy</h2>
@@ -169,6 +183,7 @@ function GradingScheme(props) {
               variant="contained"
               size="large"
               style={{ color: "#303F9F", background: "#C5CAE9" }}
+              onSubmit={handleSubmit}
             >
               Submit
             </Button>

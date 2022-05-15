@@ -51,13 +51,13 @@ const courseInfo = [
 ];
 
 export default function DeanPortal() {
-  const [courses, setCourses] = React.useState(courseInfo);
+  const [courses, setCourses] = React.useState([]);
 
-  // React.useEffect(() => {
-  //   fetch("http://localhost:5000/courses")
-  //     .then((res) => res.json())
-  //     .then((data) => setCourses(data));
-  // }, []);
+  React.useEffect(() => {
+    fetch("http://127.0.0.1:8000/testing/getCourseDetail/6")
+      .then((res) => res.json())
+      .then((data) => setCourses(data));
+  }, []);
 
   return (
     <div>

@@ -29,12 +29,18 @@ const courseInfo = [
 ];
 
 export default function InstMain() {
-  const [courses, setCourses] = React.useState(courseInfo);
-  // React.useEffect(() => {
-  //   fetch("http://localhost:5000/courses")
-  //     .then((res) => res.json())
-  //     .then((data) => setCourses(data));
-  // }, []);
+  const [courses, setCourses] = React.useState([]);
+  React.useEffect(() => {
+    fetch("http://127.0.0.1:8000/testing/getCourseDetail/6")
+      .then((res) => res.json())
+      .then((data) => {
+        let instructors = ["Ahsan Shah"];
+        var filteredArray = data.filter(function (itm) {
+          return instructors.indexOf(itm.instructor) > -1;
+        });
+        setCourses(filteredArray);
+      });
+  }, []);
   return (
     <div>
       <Container>

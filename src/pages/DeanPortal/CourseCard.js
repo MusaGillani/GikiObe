@@ -38,7 +38,7 @@ export default function CourseCard({ course }) {
               </IconButton>
             }
             title={course.title}
-            subheader={course.code}
+            subheader={`${course.code}`}
           />
           <CardContent>
             <Typography variant="body2" color="textSecondary">

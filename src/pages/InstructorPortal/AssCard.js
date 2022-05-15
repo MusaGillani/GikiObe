@@ -1,6 +1,5 @@
 import React from "react";
 import { Typography, Grid, TextField, Fab } from "@material-ui/core";
-import AddIcon from "@mui/icons-material/AddCircleOutline";
 import Box from "@mui/material/Box";
 import FormControl from "@material-ui/core/FormControl";
 import { useState } from "react";
@@ -9,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { makeStyles } from "@material-ui/styles"; // a function
 import Button from "@mui/material/Button";
+import * as XLSX from "xlsx";
 
 const useStyles = makeStyles({
   container: {
@@ -40,46 +40,79 @@ const useStyles = makeStyles({
   },
 });
 
-const Scourses = ["CLO1", "CLO2", "CLO3", "CLO4"];
-const regNumbers = ["2018146", "2018460", "2018468"];
-
 export default function AssCard(props) {
-  const [courses, setCourses] = useState(Scourses);
-  const [course, setCourse] = useState("");
-  const [reg, setReg] = useState();
+  const [CLOs, setCLOs] = useState([]);
+  const [CLO, setCLO] = useState("");
   const classes = useStyles();
-  const [formData, setformData] = useState("");
+  const [file, setFile] = useState([]);
+  const [serial, setSerial] = useState();
+  const [threshold, setThreshold] = useState();
+  const [totalMarks, setTotalMarks] = useState();
 
-  const [marks, setMarks] = useState([
-    {
-      label: "Marks",
-      placeholder: "Enter Marks of Student 1",
-    },
-    {
-      label: "Marks",
-      placeholder: "Enter Marks of Student 2",
-    },
-  ]);
-  const createTextField = () => {
-    let cloNum = marks.length + 1;
-    let label = "Marks";
-    let placeholder = "Enter Marks of Student  " + cloNum;
-    setMarks([...marks, { label: label, placeholder: placeholder }]);
+  React.useEffect(() => {
+    console.log()
+    fetch(`http://127.0.0.1:8000/testing/getCourseClo/${props.course}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCLOs(data);
+        console.log(data);
+      });
+  }, []);
+
+  const handleChangeCLO = (event) => {
+    setCLO(event);
   };
 
-  const handleChange = (event) => {
-    setCourse(event);
+  const handleChangeSerial = (event) => {
+    setSerial(event);
+  };
+
+  const handleChangeThreshold = (event) => {
+    setThreshold(event);
+  };
+
+  const handleChangeTotalMarks = (event) => {
+    setTotalMarks(event);
   };
 
   const onSelectImageHandler = (files) => {
-    const file = files;
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append(`file[${i}]`, files[i]);
-    }
-    console.log(formData);
-    setformData(formData);
+    setFile(files);
   };
+
+  function handleSave(e) {
+    e.preventDefault();
+    const type = props.type;
+    const course = props.course;
+
+    var f = file[0];
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var data = e.target.result;
+      let readedData = XLSX.read(data, { type: "binary" });
+      const wsname = readedData.SheetNames[0];
+      const ws = readedData.Sheets[wsname];
+
+      /* Convert array to json*/
+      const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      // console.log(dataParse);
+      var temp = { reg_no: [], marks_obtained: [] };
+
+      for (let i = 1; i < dataParse.length; i++) {
+        temp.reg_no.push(dataParse[i][0]);
+        temp.marks_obtained.push(dataParse[i][1]);
+      }
+      temp["course_code"] = course;
+      temp["assessment_type"] = type;
+      temp["serial_no"] = serial;
+      temp["question_no"] = 1;
+      temp["total_marks"] = totalMarks;
+      temp["mapped_on_clo"] = CLO;
+      temp["clo_threshold"] = threshold;
+      console.log(temp);
+    };
+    reader.readAsBinaryString(f);
+  }
 
   return (
     <div className={classes.container}>
@@ -92,7 +125,7 @@ export default function AssCard(props) {
       >
         Marks of {props.type}
       </Typography>
-      <form>
+      <form onSubmit={handleSave}>
         <Box sx={{ minWidth: 120 }}>
           <Grid container spacing={1}>
             <Grid xs={12} sm={12} item>
@@ -103,11 +136,11 @@ export default function AssCard(props) {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={course}
+                  value={CLO}
                   label="Select CLO"
-                  onChange={(e) => handleChange(e.target.value)}
+                  onChange={(e) => handleChangeCLO(e.target.value)}
                 >
-                  {courses.map((name) => (
+                  {CLOs.map((name) => (
                     <MenuItem value={name}>{name}</MenuItem>
                   ))}
                 </Select>
@@ -120,6 +153,8 @@ export default function AssCard(props) {
                 placeholder="Enter sr. number"
                 id="standard-basic"
                 required
+                value={serial}
+                onChange={(e) => handleChangeSerial(e.target.value)}
               >
                 {props.type} number
               </TextField>
@@ -130,6 +165,8 @@ export default function AssCard(props) {
                 placeholder="Enter course code"
                 id="standard-basic"
                 required
+                value={threshold}
+                onChange={(e) => handleChangeThreshold(e.target.value)}
               ></TextField>
             </Grid>
             <Grid xs={12} sm={12} item>
@@ -138,66 +175,10 @@ export default function AssCard(props) {
                 placeholder="Enter course code"
                 id="standard-basic"
                 required
+                value={totalMarks}
+                onChange={(e) => handleChangeTotalMarks(e.target.value)}
               ></TextField>
             </Grid>
-
-            {marks.map((mark, reg) => (
-              <Grid xs={12} sm={12} item className="abc">
-                <div>
-                  <TextField
-                    label={mark.label}
-                    placeholder={mark.placeholder}
-                    id="standard-basic"
-                    halfWidth
-                    required
-                  ></TextField>
-                </div>
-                <div className={classes.select}>
-                  <FormControl>
-                    <InputLabel
-                      id="demo-simple-select-label"
-                      placeholder="RegNumber"
-                      halfWidth
-                      className={classes.field}
-                    >
-                      Reg Number
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={reg}
-                      label="Reg Number"
-                      halfWidth
-                      className={classes.abc}
-
-                      //   onChange={(e) => handleChange(e.target.value)}
-                    >
-                      {regNumbers.map((name) => (
-                        <MenuItem value={name}>{name}</MenuItem>
-                      ))}
-                    </Select>
-                    {/* {console.log(sBatch)} */}
-                  </FormControl>
-                </div>
-              </Grid>
-            ))}
-            <div className="add-clos">
-              <div className="add-button">
-                <Fab
-                  color="#3F51B5"
-                  aria-label="add"
-                  onClick={createTextField}
-                  style={{
-                    marginTop: "10px",
-                    marginLeft: "5px",
-                    color: "#3F51B5",
-                  }}
-                >
-                  <AddIcon style={{ color: "#3F51B5" }} />
-                </Fab>
-              </div>
-              <div className="button-label">Add more...</div>
-            </div>
           </Grid>
         </Box>
         <Typography
@@ -205,7 +186,7 @@ export default function AssCard(props) {
           variant="h6"
           style={{ color: "#303F9F", marginTop: 50 }}
         >
-          OR Upload File
+          Upload File
         </Typography>
         <div className={classes.upload}>
           <label htmlFor="upload">Upload File Mark Sheet</label>
@@ -222,7 +203,7 @@ export default function AssCard(props) {
             type="submit"
             variant="contained"
             style={{ color: "#303F9F", background: "#C5CAE9" }}
-            //   onSubmit={handleSubmit}
+            onSubmit={handleSave}
           >
             Save
           </Button>

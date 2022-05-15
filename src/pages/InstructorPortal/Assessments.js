@@ -54,12 +54,21 @@ const useStyles = makeStyles({
 
 export default function Assessments() {
   const [category, setCategory] = useState("todos");
-  const [courses, setCourses] = useState(Scourses);
+  const [courses, setCourses] = useState([]);
   const [course, setCourse] = useState("");
 
   const handleChange = (event) => {
     setCourse(event);
   };
+
+  React.useEffect(() => {
+    fetch(`http://127.0.0.1:8000/testing/alloted-course/Mohsin Zafar`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCourses(data);
+        console.log(data);
+      });
+  }, []);
 
   const classes = useStyles();
   return (
@@ -119,11 +128,11 @@ export default function Assessments() {
           </RadioGroup>
         </FormControl>
       </div>
-      {category == "Quiz" && <AssCard type={category} />}
-      {category == "Assignment" && <AssCard type={category} />}
-      {category == "Mid-Exam" && <FinalMidCard type={category} />}
-      {category == "Final-Exam" && <FinalMidCard type={category} />}
-      {category == "Project" && <FinalMidCard type={category} />}
+      {category == "Quiz" && <AssCard type={category} course = {course} />}
+      {category == "Assignment" && <AssCard type={category} course = {course} />}
+      {category == "Mid-Exam" && <FinalMidCard type={category} course = {course}   />}
+      {category == "Final-Exam" && <FinalMidCard type={category} course = {course}  />}
+      {category == "Project" && <FinalMidCard type={category} course = {course} />}
     </div>
   );
 }
