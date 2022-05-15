@@ -1,6 +1,34 @@
-//TODO:delete
-
+const { response } = require("express");
 const prisma = require("../db/db");
+
+exports.getCourseCLOs = async (req, res, next) => {
+  try {
+    const course = req.params.course;
+
+    const courseCloJson = await prisma.course_clos.findMany({
+      select: {
+        clo_num: true,
+        clo_desc: true,
+      },
+      where: {
+        CourseCode: course,
+      },
+    });
+
+    console.log(courseCloJson);
+
+    let response = [];
+    for (let i = 0; i < courseCloJson.length; i = i + 1) {
+      response.push(
+        `CLO ${courseCloJson[i].clo_num}: ${courseCloJson[i].clo_desc}`
+      );
+    }
+    res.send(response);
+  } catch (e) {
+    console.log(e.toString());
+    res.status(404).send(JSON.stringify(e.toString));
+  }
+};
 
 exports.getCourse = async (req, res, next) => {
   try {
@@ -127,3 +155,109 @@ exports.getDetailCourse = async (req, res, next) => {
     res.status(404).send(JSON.stringify(e.toString));
   }
 };
+
+exports.allotCourse = async (req, res, next) => {
+  try {
+    const inst = req.body.inst;
+    const courseCode = req.body.courseCode;
+    // console.log(courseCode);
+    const inst_id = await prisma.course_instructors.findFirst({
+      select: {
+        instructor_id: true,
+      },
+      where: {
+        full_name: inst,
+      },
+    });
+
+    const id_inst = inst_id.instructor_id;
+    console.log(id_inst);
+
+    const a = await prisma.course_allotments.deleteMany({
+      where: {
+        instructor_id: id_inst,
+      },
+    });
+    console.log(courseCode);
+    for (const i of courseCode) {
+      let obj = { CourseCode: i, instructor_id: id_inst };
+
+      const abc = await prisma.course_allotments.create({
+        data: obj,
+      });
+    }
+    res.send("Sucess");
+  } catch (e) {
+    console.log(e.toString());
+    res.status(404).send(JSON.stringify(e.toString));
+  }
+};
+
+exports.allotedCourses = async (req, res, next) => {
+  try {
+    const inst = req.params.inst;
+    console.log(inst);
+    const inst_id = await prisma.course_instructors.findFirst({
+      select: {
+        instructor_id: true,
+      },
+      where: {
+        full_name: inst,
+      },
+    });
+
+    const id_inst = inst_id.instructor_id;
+
+    const courses = await prisma.course_allotments.findMany({
+      select: {
+        CourseCode: true,
+      },
+      where: {
+        instructor_id: id_inst,
+      },
+    });
+
+    // console.log(courses);
+
+    let response = [];
+    for (const obj of courses) {
+      response.push(obj.CourseCode);
+    }
+    // console.log(response);
+    res.send(JSON.stringify(response));
+  } catch (e) {
+    console.log(e.toString());
+    res.status(404).send(JSON.stringify(e.toString));
+  }
+};
+
+exports.addCourse = async (req, res, next) => {
+  try {
+    const courseTitle = req.body.courseTitle;
+    const courseCode = req.body.courseCode;
+    const CLOs = req.body.CLOs;
+    const threshold = req.body.threshold;
+    const PLOs = req.body.PLOs;
+
+    console.log(threshold);
+
+    for (let i = 0; i < CLOs.length; i++) {
+      let temp = {
+        CourseCode: courseCode,
+        clo_num: i + 1,
+        clo_desc: CLOs[i],
+        mapped_on_plo: parseInt(PLOs[i]),
+        weightage: parseFloat(threshold[i]),
+      };
+      const abc = await prisma.course_clos.create({
+        data: temp,
+      });
+    }
+    res.send("Sucess");
+  } catch (e) {
+    console.log(e.toString());
+    res.status(404).send(JSON.stringify(e.toString));
+  }
+};
+
+exports.getAssesments = async (req, res, next) => {};

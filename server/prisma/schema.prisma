@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL_AZURE")
 }
 
 model courseplo {
@@ -84,7 +84,6 @@ model plos {
   course_clos   course_clos[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model assessments {
   course_code            String  @db.VarChar(30)
   reg_no                 Int
@@ -96,8 +95,7 @@ model assessments {
   mapped_on_clo          Int?
   clo_threshold          Decimal @db.Decimal(19, 4)
   obtained_clo_threshold Decimal @db.Decimal(19, 4)
-
-  @@ignore
+  id                     Int     @id @default(autoincrement())
 }
 
 model users {
@@ -113,4 +111,10 @@ model grading_policies {
   mid_wt         Decimal @db.Decimal(19, 4)
   final_wt       Decimal @db.Decimal(19, 4)
   final_proj_wt  Decimal @db.Decimal(19, 4)
+}
+
+model faculty_deans {
+  dean_id String @id @db.VarChar(30)
+  name    String @db.VarChar(255)
+  faculty String @db.VarChar(30)
 }

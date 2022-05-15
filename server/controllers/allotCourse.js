@@ -1,3 +1,4 @@
+//TODO:delete
 const prisma = require("../db/db");
 
 exports.allotCourse = async (req, res, next) => {

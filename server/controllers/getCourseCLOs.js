@@ -1,3 +1,5 @@
+//TODO:delete
+
 const prisma = require("../db/db");
 exports.getCourseCLOs = async (req, res, next) => {
   try {
