@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_URL_AZURE")
 }
 
 model courseplo {
@@ -30,12 +30,13 @@ model courseplo {
 }
 
 model schemeofstudy {
-  Semester          String              @db.VarChar(30)
-  Batch             Int
-  CourseCode        String              @id @db.VarChar(30)
-  CourseTitle       String              @db.VarChar(255)
-  course_allotments course_allotments[]
-  course_clos       course_clos[]
+  Semester           String              @db.VarChar(30)
+  Batch              Int
+  CourseCode         String              @id @db.VarChar(30)
+  CourseTitle        String              @db.VarChar(255)
+  course_description String?             @db.Text
+  course_allotments  course_allotments[]
+  course_clos        course_clos[]
 }
 
 model student {
@@ -83,17 +84,37 @@ model plos {
   course_clos   course_clos[]
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
 model assessments {
-  CourseCode           String  @db.VarChar(30)
-  student_reg_no       Int     @db.UnsignedInt
-  assessment_type      String  @db.VarChar(30)
-  marks_obtained       Decimal @db.Decimal(5, 2)
-  total_marks          Decimal @db.Decimal(5, 2)
-  mapped_on_clo        Int
-  weightage_percentage Decimal @db.Decimal(5, 2)
+  course_code            String  @db.VarChar(30)
+  reg_no                 Int
+  assessment_type        String  @db.VarChar(30)
+  serial_no              Int
+  question_no            Int
+  marks_obtained         Decimal @db.Decimal(19, 4)
+  total_marks            Decimal @db.Decimal(19, 4)
+  mapped_on_clo          Int?
+  clo_threshold          Decimal @db.Decimal(19, 4)
+  obtained_clo_threshold Decimal @db.Decimal(19, 4)
+  id                     Int     @id @default(autoincrement())
+}
 
-  @@index([CourseCode], map: "CourseCode")
-  @@index([student_reg_no], map: "student_reg_no")
-  @@ignore
+model users {
+  username String @id @db.VarChar(30)
+  password String @db.VarChar(30)
+  userType String @db.VarChar(30)
+}
+
+model grading_policies {
+  course_code    String  @id @db.VarChar(30)
+  assignments_wt Decimal @db.Decimal(19, 4)
+  quizzes_wt     Decimal @db.Decimal(19, 4)
+  mid_wt         Decimal @db.Decimal(19, 4)
+  final_wt       Decimal @db.Decimal(19, 4)
+  final_proj_wt  Decimal @db.Decimal(19, 4)
+}
+
+model faculty_deans {
+  dean_id String @id @db.VarChar(30)
+  name    String @db.VarChar(255)
+  faculty String @db.VarChar(30)
 }
