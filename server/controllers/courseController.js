@@ -111,6 +111,8 @@ exports.getDetailCourse = async (req, res, next) => {
           },
         });
         response["instructor"] = inst_name.full_name;
+        response["instructor_id"] = courseAllot[0].instructor_id;
+        console.log(response["instructor_id"]);
       }
 
       response["code"] = obj.CourseCode;
@@ -195,18 +197,18 @@ exports.allotCourse = async (req, res, next) => {
 
 exports.allotedCourses = async (req, res, next) => {
   try {
-    const inst = req.params.inst;
+    const inst = req.params.inst.toUpperCase();
     console.log(inst);
-    const inst_id = await prisma.course_instructors.findFirst({
-      select: {
-        instructor_id: true,
-      },
-      where: {
-        full_name: inst,
-      },
-    });
+    // const inst_id = await prisma.course_instructors.findFirst({
+    //   select: {
+    //     instructor_id: true,
+    //   },
+    //   where: {
+    //     instructor_id: inst,
+    //   },
+    // });
 
-    const id_inst = inst_id.instructor_id;
+    const id_inst = inst;
 
     const courses = await prisma.course_allotments.findMany({
       select: {
