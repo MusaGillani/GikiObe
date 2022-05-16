@@ -44,7 +44,7 @@ exports.getCourse = async (req, res, next) => {
       },
     });
     // console.log(courseJson);
-    let response = [];
+    let coursesResponse = [];
     for (const obj of courseJson) {
       const courseAllot = await prisma.course_allotments.findMany({
         select: {
@@ -56,10 +56,10 @@ exports.getCourse = async (req, res, next) => {
       });
       // console.log(courseAllot);
       if (courseAllot.length == 0)
-        response.push(obj.CourseTitle + " " + obj.CourseCode);
+        coursesResponse.push(obj.CourseTitle + " " + obj.CourseCode);
     }
-    // console.log(response);
-    res.send(JSON.stringify(response));
+    // console.log(coursesResponse);
+    res.send(JSON.stringify(coursesResponse));
   } catch (e) {
     console.log(e.toString());
     res.status(404).send(JSON.stringify(e.toString));
