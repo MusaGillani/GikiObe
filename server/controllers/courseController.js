@@ -266,6 +266,14 @@ exports.getAssesments = async (req, res, next) => {
   try {
     let reg = parseInt(req.params.reg);
 
+    let studentData = await prisma.student.findFirst({
+      where: { RegNo: reg },
+      select: {
+        Name: true,
+        Faculty: true,
+      },
+    });
+
     let result = await prisma.assessments.findMany({
       where: {
         reg_no: reg,
@@ -285,6 +293,8 @@ exports.getAssesments = async (req, res, next) => {
     */
 
     let response = [];
+
+    response.push(studentData);
 
     for (const assessment of result) {
       let course_title = await prisma.schemeofstudy.findFirst({
