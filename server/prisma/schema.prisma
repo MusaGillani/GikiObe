@@ -124,6 +124,16 @@ model faculty_deans {
 model course_enrollments {
   reg_no      Int
   course_code String @db.VarChar(30)
+  id          Int    @id @default(autoincrement())
 
   @@ignore
+}
+
+model plo_attainment {
+  id             Int      @id @default(autoincrement())
+  reg_no         Int?
+  course_code    String?  @db.VarChar(30)
+  semester       Int?
+  plo_num        Int
+  plo_attainment Decimal? @default(0.0000) @db.Decimal(19, 4)
 }
