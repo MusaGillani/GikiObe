@@ -104,16 +104,14 @@ export default function FinalMidCard(props) {
 
     var temp = {
       total_marks: marks_question,
-      threshold: threshold,
-      CLOs: CLOs,
-      type: props.type,
-      course: props.course,
-      reg_no: [],
-      obtained_marks: {
-        question: [],
-      },
+      clo_threshold: threshold,
+      mapped_on_clo: CLOs,
+      assessment_type: props.type,
+      course_code: props.course,
+      registration_numbers: [],
+      obtained_marks: []
     };
-    console.log(marks_question);
+    // console.log(marks_question);
 
     var f = file[0];
     // console.log(f);
@@ -126,14 +124,19 @@ export default function FinalMidCard(props) {
 
       /* Convert array to json*/
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
-      // console.log(dataParse);
+      //  console.log(dataParse);
 
       for (let i = 1; i < dataParse.length; i++) {
-        temp.reg_no.push(dataParse[i][0]);
+        temp.registration_numbers.push(dataParse[i][0]);
         for (let j = 0; j < CLOs.length; j++)
-          temp.obtained_marks.question.push(dataParse[i][j + 1]);
+          temp.obtained_marks.push(dataParse[i][j + 1]);
       }
-      console.log(temp);
+       //console.log(temp);
+       fetch("http://127.0.0.1:8000/testing/addFinalMidP", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(temp),
+      }).then((res) => console.log(res));
     };
     reader.readAsBinaryString(f);
   };

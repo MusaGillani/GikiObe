@@ -53,14 +53,6 @@ const useStyles = makeStyles({
   },
 });
 
-const Steachers = [
-  "Mohsin Zafar",
-  "Sajid Ali",
-  "Masroor Ali",
-  "Fawad Hussain",
-  "Ali Shaukat",
-];
-
 export default function GenerateModified() {
   const classes = useStyles();
   const [teachers, setTeachers] = useState([]);
@@ -83,10 +75,8 @@ export default function GenerateModified() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const TimOut = setTimeout(() => {
-      console.log("loading");
-    }, 4000);
-    fetch(`http://127.0.0.1:8000/testing/alloted-course/${teacher}`)
+    let a = teacher.split(" ");
+    fetch(`http://127.0.0.1:8000/testing/alloted-course/${a[a.length - 1]}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(e.target[0].value);
@@ -140,7 +130,7 @@ export default function GenerateModified() {
       }
     }
 
-    fetch(`http://127.0.0.1:8000/testing/courses/5`)
+    fetch(`http://127.0.0.1:8000/testing/courses/6`)
       .then((res) => res.json())
       .then((data) => {
         setCourses(data);
@@ -151,7 +141,7 @@ export default function GenerateModified() {
       .then((res) => res.json())
       .then((data) => {
         setTeachers(data);
-        // console.log(data);
+        console.log(data);
       });
   }, [open]);
 

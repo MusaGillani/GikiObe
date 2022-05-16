@@ -48,9 +48,10 @@ export default function AssCard(props) {
   const [serial, setSerial] = useState();
   const [threshold, setThreshold] = useState();
   const [totalMarks, setTotalMarks] = useState();
+  // const [temp, setTemp] = useState({});
 
   React.useEffect(() => {
-    console.log()
+    console.log();
     fetch(`http://127.0.0.1:8000/testing/getCourseClo/${props.course}`)
       .then((res) => res.json())
       .then((data) => {
@@ -86,6 +87,7 @@ export default function AssCard(props) {
 
     var f = file[0];
 
+    var temp = { reg_no: [], marks_obtained: [] };
     var reader = new FileReader();
     reader.onload = function (e) {
       var data = e.target.result;
@@ -96,7 +98,6 @@ export default function AssCard(props) {
       /* Convert array to json*/
       const dataParse = XLSX.utils.sheet_to_json(ws, { header: 1 });
       // console.log(dataParse);
-      var temp = { reg_no: [], marks_obtained: [] };
 
       for (let i = 1; i < dataParse.length; i++) {
         temp.reg_no.push(dataParse[i][0]);
@@ -110,6 +111,12 @@ export default function AssCard(props) {
       temp["mapped_on_clo"] = CLO;
       temp["clo_threshold"] = threshold;
       console.log(temp);
+      // setTemp(temp);
+      fetch("http://127.0.0.1:8000/testing/addQuizAssessment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(temp),
+      }).then((res) => console.log(res));
     };
     reader.readAsBinaryString(f);
   }

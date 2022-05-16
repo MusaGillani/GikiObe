@@ -27,7 +27,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Login = () => {
+const Login = (props) => {
   const paperStyle = {
     padding: 40,
     height: "100%",
@@ -57,16 +57,22 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
+        props.parentCallback(data.username);
         if (data.userType == "Instructor") {
           console.log("Instructor Login");
+
           history.push(`/inst-login`);
         } else if (data.userType == "Dean") {
           console.log("Dean Login");
           history.push(`/courses`);
+        } else if (data.userType == "Student") {
+          console.log("Student Login");
+          history.push(`/student-login`);
         } else {
           console.log("Incorrect password");
         }
-      })
+      });
   };
 
   return (

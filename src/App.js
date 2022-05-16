@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Download from "./pages/download";
 import Populate from "./pages/populate";
@@ -23,6 +23,9 @@ import ChartsGrid from "./pages/InstructorPortal/MainDash/ChartsGrid";
 import Login from "./pages/login";
 import CourseInfo from "./pages/DeanPortal/CourseInfo";
 import ChartsGridDean from "./pages/DeanPortal/DeanDash/ChartsGridDean";
+import StudentMain from "./pages/StudentPortal/studentMain";
+import StudentTranscript from "./pages/StudentPortal/studentTranscript";
+import CloTranscript from "./pages/StudentPortal/cloTranscript";
 
 const theme = createTheme({
   palette: {
@@ -110,11 +113,63 @@ const instructMenuItems = [
   },
 ];
 
+const studentMenuItems = [
+  {
+    text: "Courses",
+    icon: <SubjectOutlined style={{ color: "#C5CAE9" }} />,
+    path: "/student-login",
+  },
+  {
+    text: "PLO Transcript",
+    icon: <DownloadForOfflineIcon style={{ color: "#C5CAE9" }} />,
+    path: "/student/transcript-download",
+  },
+  {
+    text: "CLO Transcript",
+    icon: <AlignHorizontalRightOutlinedIcon style={{ color: "#C5CAE9" }} />,
+    path: "/clo-transcript",
+  },
+];
+
 function App() {
+  const [id, setID] = useState("");
+
+  const handleCallback = (childData) => {
+    setID({ id: childData });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <Switch>
+          {/* Student Layout */}
+
+          <Route
+            path={[
+              "/student-login",
+              "/student/transcript-download",
+              "/transcript-download/:regNo",
+              "/clo-transcript",
+            ]}
+          >
+            <Layout deanMenuItems={studentMenuItems} login="Student Portal">
+              <Switch>
+                <Route exact path="/student-login">
+                  <StudentMain />
+                </Route>
+                <Route exact path="/student/transcript-download">
+                  <StudentTranscript regNum={id.id} />
+                </Route>
+                <Route exact path="/transcript-download/:regNo">
+                  <Download regNum={id.id} />
+                </Route>
+                <Route exact path="/clo-transcript">
+                  <CloTranscript regNum={id.id} />
+                </Route>
+              </Switch>
+            </Layout>
+          </Route>
+
           {/* Instructor Layout  */}
 
           <Route
@@ -128,13 +183,13 @@ function App() {
             <Layout deanMenuItems={instructMenuItems} login="Instructor Portal">
               <Switch>
                 <Route exact path="/inst-login">
-                  <InstMain />
+                  <InstMain id={id} />
                 </Route>
                 <Route exact path="/grading-scheme">
-                  <GradingScheme />
+                  <GradingScheme id={id.id} />
                 </Route>
                 <Route exact path="/assessments">
-                  <Assessments />
+                  <Assessments id={id} />
                 </Route>
                 <Route exact path="/analysis">
                   <ChartsGrid />
@@ -190,7 +245,7 @@ function App() {
             <CourseInfo />
           </Route>
           <Route exact path="/">
-            <Login />
+            <Login parentCallback={handleCallback} />
           </Route>
         </Switch>
       </Router>

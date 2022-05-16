@@ -2,21 +2,17 @@ import { Container } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import CourseCard from "../DeanPortal/CourseCard";
 import * as React from "react";
-import { useParams } from "react-router-dom";
 
-export default function InstMain(props) {
+export default function StudentMain() {
   const [courses, setCourses] = React.useState([]);
-  let { id } = useParams();
   React.useEffect(() => {
     fetch("http://127.0.0.1:8000/testing/getCourseDetail/6")
       .then((res) => res.json())
       .then((data) => {
-        console.log(props.id.id);
-        let instructors = [props.id.id];
+        let instructors = ["Ahsan Shah"];
         var filteredArray = data.filter(function (itm) {
-          return instructors.indexOf(itm.instructor_id) > -1;
+          return instructors.indexOf(itm.instructor) > -1;
         });
-        console.log();
         setCourses(filteredArray);
       });
   }, []);

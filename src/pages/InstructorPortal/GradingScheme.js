@@ -47,20 +47,63 @@ const useStyles = makeStyles({
 });
 
 function GradingScheme(props) {
+  const [course, setCourse] = useState("");
+  const classes = useStyles();
+  const [courses, setCourses] = useState([]);
+  const [quiz, setQuiz] = useState("");
+  const [assignment, setAssignment] = useState("");
+  const [mid, setMid] = useState("");
+  const [final, setFinal] = useState("");
+  const [project, setProject] = useState("");
+
   const handleChange = (event) => {
     setCourse(event);
   };
 
+  const handleChangeQuiz = (event) => {
+    setQuiz(event);
+  };
+
+  const handleChangeAss = (event) => {
+    setAssignment(event);
+  };
+
+  const handleChangeMid = (event) => {
+    setMid(event);
+  };
+
+  const handleChangeFinal = (event) => {
+    setFinal(event);
+  };
+
+  const handleChangeProject = (event) => {
+    setProject(event);
+  };
+
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(e);
+    console.log("Assignemnt: ", assignment);
+    console.log("Quiz: ", quiz);
+    console.log("Mid: ", mid);
+    console.log("Final: ", final);
+    console.log("Project: ", project);
+
+    fetch("http://127.0.0.1:8000/testing/addGrading", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        course_code: course,
+        assignment_wt: parseFloat(assignment),
+        quizzes_wt: parseFloat(quiz),
+        mid_wt: parseFloat(mid),
+        final_wt: parseFloat(final),
+        final_proj_wt: parseFloat(project),
+      }),
+    }).then((res) => console.log(res));
   }
 
-  const [course, setCourse] = useState("");
-  const classes = useStyles();
-  const [courses, setCourses] = useState([]);
   React.useEffect(() => {
-    fetch(`http://127.0.0.1:8000/testing/alloted-course/Mohsin Zafar`)
+    fetch(`http://127.0.0.1:8000/testing/alloted-course/${props.id}`)
       .then((res) => res.json())
       .then((data) => {
         setCourses(data);
@@ -147,32 +190,42 @@ function GradingScheme(props) {
           <Stack spacing={2}>
             <TextField
               id="outlined-basic"
-              placeholder="10%"
+              placeholder="5%"
               variant="outlined"
+              value={quiz}
+              onChange={(e) => handleChangeQuiz(e.target.value)}
               Required
             />
             <TextField
               id="outlined-basic"
               placeholder="5%"
               variant="outlined"
+              value={assignment}
+              onChange={(e) => handleChangeAss(e.target.value)}
               Required
             />
             <TextField
               id="outlined-basic"
               placeholder="30%"
               variant="outlined"
+              value={mid}
+              onChange={(e) => handleChangeMid(e.target.value)}
               Required
             />
             <TextField
               id="outlined-basic"
               placeholder="50%"
               variant="outlined"
+              value={final}
+              onChange={(e) => handleChangeFinal(e.target.value)}
               Required
             />
             <TextField
               id="outlined-basic"
               placeholder="5%"
               variant="outlined"
+              value={project}
+              onChange={(e) => handleChangeProject(e.target.value)}
               Required
             />
           </Stack>
@@ -183,7 +236,7 @@ function GradingScheme(props) {
               variant="contained"
               size="large"
               style={{ color: "#303F9F", background: "#C5CAE9" }}
-              onSubmit={handleSubmit}
+              onClick={handleSubmit}
             >
               Submit
             </Button>
