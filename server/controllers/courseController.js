@@ -297,14 +297,16 @@ exports.getAssesments = async (req, res, next) => {
     response.push(studentData);
 
     for (const assessment of result) {
-      let course_title = await prisma.schemeofstudy.findFirst({
+      let query = await prisma.schemeofstudy.findFirst({
         where: {
           CourseCode: assessment.course_code,
         },
         select: {
-          course_description: true,
+          CourseTitle: true,
         },
       });
+      let course_title = query.CourseTitle;
+      //console.log
       assessment.course_title = course_title;
       // quiz
       if (
