@@ -1,5 +1,3 @@
-// Todo delete
-
 const prisma = require("../db/db");
 exports.addQuizAssessment = async (req, res, next) => {
   try {
