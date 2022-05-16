@@ -2,9 +2,9 @@ const prisma = require("./db/db");
 const express = require("express");
 const app = express();
 require("dotenv").config();
-var cors = require('cors')
+var cors = require("cors");
 
-app.use(cors()) 
+app.use(cors());
 const jwt = require("jsonwebtoken");
 
 app.use(express.json());
@@ -67,7 +67,11 @@ app.post("/login", async (req, res) => {
     const user = { name: username };
     const accessToken = jwt.sign(user, process.env.ACESS_TOKEN_SECRET);
 
-    res.json({ accessToken: accessToken, userType: userJson.userType });
+    res.json({
+      accessToken: accessToken,
+      userType: userJson.userType,
+      username: userJson.username.toUpperCase(),
+    });
   } catch (err) {
     console.log(err);
   }

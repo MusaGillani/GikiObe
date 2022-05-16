@@ -83,6 +83,8 @@ exports.getDetailCourse = async (req, res, next) => {
           },
         });
         response["instructor"] = inst_name.full_name;
+        response["instructor_id"] = courseAllot[0].instructor_id;
+        console.log(response["instructor_id"]);
       }
 
       response["code"] = obj.CourseCode;
