@@ -12,6 +12,7 @@ const studentController = require("../controllers").studentController;
 // const allotCourse = require("../controllers").allotCourse;
 // const course = require("../controllers").getCourseSem;
 const getInstructors = require("../controllers/getInstructors");
+const grading = require("../controllers").grading
 // const addCourse = require("../controllers").addCourse;
 // const getCourseCLOs = require("../controllers").getCourseCLOs;
 // const getAssesments = require("../controllers").getAssesments;
@@ -86,5 +87,7 @@ router.get("/getAssessments/:reg", courseController.getAssesments);
 router.post("/addQuizAssessment", assessmentController.addQuizAssessment);
 
 router.post("/addFinalMidP", assessmentController.addFinalMidP);
+
+router.post("/addGrading", grading.grading);
 
 module.exports = router;
